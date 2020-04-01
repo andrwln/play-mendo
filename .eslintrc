@@ -1,0 +1,75 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true,
+        "jest": true
+    },
+    "globals": {
+        "$": true,
+        "_": true,
+        "node": true,
+        "jQuery": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true
+        }
+    },
+    "extends": [
+        "eslint:recommended",
+        "standard-react"
+    ],
+    "rules": {
+        "complexity": ["error"],
+        // rules set to warning
+        "strict": 0,
+        "semi": ["error", "always"],
+        "no-cond-assign": 1,
+        "no-constant-condition": 1,
+        "no-control-regex": 1,
+        "no-debugger": 1,
+        "no-dupe-args": 1,
+        "no-dupe-keys": 1,
+        "no-duplicate-case": 1,
+        "no-empty-character-class": 1,
+        "no-empty": 1,
+        "no-ex-assign": 1,
+        "no-extra-boolean-cast": 1,
+        "no-func-assign": 1,
+        "no-inner-declarations": 1,
+        "no-invalid-regexp": 1,
+        "no-irregular-whitespace": 1,
+        "no-negated-in-lhs": 1,
+        "no-obj-calls": 1,
+        "no-regex-spaces": 1,
+        "no-sparse-arrays": 1,
+        "no-unreachable": 1,
+        "use-isnan": 1,
+        "valid-typeof": 1,
+        "no-fallthrough": 1,
+        "no-octal": 1,
+        "no-redeclare": 1,
+        "no-delete-var": 1,
+        "no-unused-vars": 1,
+        "no-mixed-spaces-and-tabs": 1,
+        "no-console": 1,
+        // rules set to error
+        "no-trailing-spaces": 2,
+        "no-undef": 2,
+        "no-extra-semi": 2,
+        "eqeqeq": 2,
+        "comma-dangle": [2, "always-multiline"],
+        "one-var": [2, "never"],
+        "quotes": [2, "single"],
+        "indent": [2, 4, { "SwitchCase": 1 }],
+        "react/jsx-indent": [2, 4],
+        "react/jsx-indent-props": [2, 4],
+        "react/prop-types": [0],
+        "react/jsx-curly-spacing": [2, { "when": "always" }]
+    }
+}
