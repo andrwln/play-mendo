@@ -75,6 +75,15 @@ export const addPlayerPromptAnswer = async ({ gameId, answer }) => {
     }
 };
 
+export const addPlayerGuessAnswer = async ({ gameId, focusedPlayerId, answer }) => {
+    try {
+        const guessesRef = await realtimeDB.ref(`games/${gameId}/guesses/${focusedPlayerId}`).push();
+        const guess = await guessesRef.set(answer);
+    } catch (err) {
+        console.error('error adding player guess: ', err);
+    }
+}
+
 // export const getPlayersData = async (gameId) => {
 //     try {
 //         const snapshot = await db.collection(`games/${gameId}/players`).get();

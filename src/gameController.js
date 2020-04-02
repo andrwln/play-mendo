@@ -1,5 +1,5 @@
 import { Actions } from './store/actions';
-import { createGame, addPlayerToGame, createTopic, updateGameData, addPlayerPromptAnswer } from './database';
+import { createGame, addPlayerToGame, createTopic, updateGameData, addPlayerPromptAnswer, addPlayerGuessAnswer } from './database';
 import { setSessionData } from './store/sessionStorageUtils';
 import { gameDefaults } from './staticData';
 import { generateDataId, generateGameCode } from './utils';
@@ -23,7 +23,8 @@ export async function initiateNewGame({ playerName, topicRawData, dispatch }) {
         topicId,
         players: [],
         prompt_answers: [],
-        player_guesses: [],
+        guesses: [],
+        playerTurnIndex: 0,
     };
     await createGame(gameData);
     await addPlayerToGame(gameId, player);
@@ -54,10 +55,25 @@ export function incrementGameStep({gameData}) {
     updateGameData(gameId, { stepIndex: currentStep + 1 });
 }
 
+export function incrementPlayerTurnIndex({gameData}) {
+    const gameId = gameData.id;
+    const currentPlayerTurnIndex = gameData.playerTurnIndex;
+
+    updateGameData(gameId, { playerTurnIndex: currentPlayerTurnIndex + 1 });
+}
+
 export async function setPlayerPromptAnswer({ playerId, answerId, gameId }) {
     const answer = {
         [playerId]: answerId,
     };
 
-    await addPlayerPromptAnswer({ gameId, answer });
+    return await addPlayerPromptAnswer({ gameId, answer });
+}
+
+export async function setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId, gameId }) {
+    const answer = {
+        [playerId]: answerId,
+    };
+
+    return await addPlayerGuessAnswer({ gameId, focusedPlayerId, answer });
 }

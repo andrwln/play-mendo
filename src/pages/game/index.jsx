@@ -6,6 +6,7 @@ import { getSessionData } from '../../store/sessionStorageUtils';
 import { useGameSnapshot } from '../../database/snapshotHooks';
 import Lobby from './Lobby';
 import Prompt from './Prompt';
+import Guess from './Guess';
 
 function generateGameComponent(state) {
     const { gameData } = state;
@@ -19,6 +20,8 @@ function generateGameComponent(state) {
             return <Lobby />;
         case 1:
             return <Prompt />;
+        case 2:
+            return <Guess />;
         default:
             return <Lobby />;
     }

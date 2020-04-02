@@ -17,14 +17,49 @@ export function generateDataId() {
 }
 
 export function snapshotListToArray(snapshot) {
-    var returnArr = [];
+    const returnArr = [];
 
     snapshot.forEach(function (childSnapshot) {
-        var item = childSnapshot.val();
+        const item = childSnapshot.val();
         item.key = childSnapshot.key;
 
         returnArr.push(item);
     });
 
     return returnArr;
+}
+
+export function snapshotListToMap(snapshot) {
+    let map = {};
+
+    snapshot.forEach(childSnapshot => {
+        map = {
+            ...map,
+            ...childSnapshot.val(),
+        };
+    });
+    return map;
+}
+
+export function getItemByIdFromArr(id, arr) {
+    return arr.find(el => el.id === id);
+}
+
+// export function convertPromptAnswersToMap(answers) {
+//     const answerMap = {};
+//     answers.forEach(answer => {
+//         const keys = Object.keys(answer);
+//         answerMap[answer];
+//     });
+// }
+
+export function getPendingPlayers(answers, players) {
+    // given list of answers and players returns list of players who still need to answer
+    const pending = [];
+    players.forEach(player => {
+        if (!answers[player.id]) {
+            pending.push(player.name);
+        }
+    });
+    return pending;
 }

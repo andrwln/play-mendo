@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { db, realtimeDB, getPlayersData, getTopicData } from '.';
 import { useStore } from '../store/useStore';
 import { Actions } from '../store/actions';
-import { snapshotListToArray } from '../utils';
+import { snapshotListToArray, snapshotListToMap, getPendingPlayers } from '../utils';
+import { incrementGameStep } from '../gameController';
 
 export const useGameSnapshot = (gameId) => {
     const { dispatch } = useStore();
@@ -42,12 +43,26 @@ export const useGameSnapshot = (gameId) => {
     useEffect(() => {
         const unsubscribeGames = realtimeDB.ref(`games/${gameId}`)
             .on('value', async snapshot => {
-                console.log('game snapshot updated with doc: ', snapshot.val());
                 if (snapshot.exists) {
-                    const playerArr = snapshotListToArray(snapshot.child('players'));
+                    console.log('game snapshot updated with doc: ', snapshot.val());
                     const data = snapshot.val();
+                    data.players = snapshotListToArray(snapshot.child('players'));
                     data.topicData = await getTopicData(data.topicId);
-                    data.players = playerArr;
+
+                    switch(data.stepIndex) {
+                        case 0:
+                            break;
+                        case 1:
+                            data.promptAnswers = snapshotListToMap(snapshot.child('prompt_answers'));
+                            data.pendingPlayers = getPendingPlayers(data.promptAnswers, data.players);
+                            if (data.pendingPlayers.length === 0) {
+                                // we should increment the step now
+                                incrementGameStep({ gameData: data });
+                            }
+                            break;
+                        case 2:
+                            // data.
+                    }
                     dispatch(Actions.setGameData(data));
                     return data;
                 }
