@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useStore } from '../../store/useStore';
-import { setUserPromptAnswer } from '../../gameController';
+import { setPlayerPromptAnswer } from '../../gameController';
 
 export default function Prompt() {
     const { state, dispatch } = useStore();
-    const { gameData } = state;
+    const { gameData, playerData } = state;
     const { topicData } = gameData;
     const [ selectedAnswer, setSelectedAnswer ] = useState(null);
     console.log('state: ', state);
     function handleSubmitAnswer() {
-        // update game data with user's answer
-        
+        // update game data with Player's answer
+        setPlayerPromptAnswer({ playerId: playerData.id, answerId: selectedAnswer, gameId: gameData.id });
     }
 
     return (
@@ -32,7 +32,7 @@ export default function Prompt() {
                     </div>
                 );
             })}
-            <button onClick={ handleSubmitAnswer }>Submit Answer</button>
+            <button onClick={ handleSubmitAnswer } disabled={ !selectedAnswer }>Submit Answer</button>
         </div>
     );
 }

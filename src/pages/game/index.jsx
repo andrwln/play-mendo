@@ -35,7 +35,7 @@ export default function GameContainer(props) {
             if (playerData) {
                 // set to store
                 dispatch(Actions.setPlayerData(playerData));
-                dispatch(Actions.setGameId(id));
+                // dispatch(Actions.setGameId(id));
             } else {
                 props.history.push('/');
             }

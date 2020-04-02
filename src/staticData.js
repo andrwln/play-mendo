@@ -1,8 +1,8 @@
-import { generateSixDigitId } from './utils';
+import { generateDataId } from './utils';
 
 export function generateAnswerObject() {
     return {
-        id: generateSixDigitId(),
+        id: generateDataId(),
         label: '',
         description: '',
         isSelected: false,
@@ -18,6 +18,7 @@ export const gameDefaults = {
 };
 export const getTopicDefaults = () => {
     return {
+        id: generateDataId(),
         topic: '',
         answers: [
             generateAnswerObject(),

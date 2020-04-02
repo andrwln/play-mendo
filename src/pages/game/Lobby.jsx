@@ -5,7 +5,9 @@ import { incrementGameStep } from '../../gameController';
 export default function Lobby() {
     const { state } = useStore();
     console.log('state in lobby: ', state);
-    const { gameId, playerData, gameData, players } = state;
+    const { playerData, gameData } = state;
+    const gameId = gameData.id;
+    const players = gameData.players;
 
     function startGame() {
         incrementGameStep({ gameId, gameData });
