@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { addPlayerToGame, createPlayer } from '../database';
+import { useStore } from '../store/useStore';
+import { joinGameAsPlayer } from '../gameController';
 
 export default function HostGame(props) {
+    const { dispatch } = useStore();
     const [playerName, setName] = useState('');
     const [gameId, setGameId] = useState('');
     async function joinRoom() {
-        const playerId = await createPlayer(playerName);
-        const game = await addPlayerToGame(playerId, gameId);
+        await joinGameAsPlayer({ playerName, gameId, dispatch});
         props.history.push(`/game/${gameId}`);
     }
     const buttonDisabled = playerName.length === 0 && gameId.length === 0;
@@ -14,7 +15,7 @@ export default function HostGame(props) {
         <div>
             Player name: <input onChange={ e => setName(e.target.value) } />
             Game id: <input onChange={ e => setGameId(e.target.value) } />
-            <button disabled={ buttonDisabled } onClick={ joinRoom }>Start new game</button>
+            <button disabled={ buttonDisabled } onClick={ joinRoom }>Join game</button>
         </div>
     );
 }
