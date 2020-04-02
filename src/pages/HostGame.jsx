@@ -9,7 +9,7 @@ export default function HostGame(props) {
     async function startNewGame() {
         // start new game and redirect user to game game lobby page
         const gameId = await initiateNewGame({ playerName, topicRawData: state.topicData, dispatch });
-        props.history.push(`/game/${gameId}`);
+        props.history.push(`/#game/${gameId}`);
     }
     const buttonDisabled = playerName.length === 0;
     return (
