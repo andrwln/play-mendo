@@ -16,7 +16,7 @@ export default function Lobby() {
     const playerList = players && players.map(player => player.name);
     return (
         <div>
-            <div>This is the lobby y'all of game with ID: {gameId}</div>
+            <div>This is the lobby y'all of game with ID: {gameId.toUpperCase()}</div>
             {playerList && <div>These are the players: {playerList.join(', ')} </div>}
             {playerData && <div>HI THERE YOUR NAME IS <strong>{playerData.name}</strong> and you are GREAT</div>}
             {playerData && playerData.isHost && <button onClick={ startGame }>START THIS DANG GAME</button>}

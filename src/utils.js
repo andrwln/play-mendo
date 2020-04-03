@@ -1,4 +1,4 @@
-const possibleDigits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const possibleDigits = 'abcdefghijklmnopqrstuvwxyz123456789';
 export function generateUniqueId(length = 6) {
     let code = '';
     while (code.length < length) {

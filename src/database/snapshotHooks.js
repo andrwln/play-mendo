@@ -43,8 +43,8 @@ export const useGameSnapshot = (gameId) => {
     useEffect(() => {
         const unsubscribeGames = realtimeDB.ref(`games/${gameId}`)
             .on('value', async snapshot => {
-                if (snapshot.exists) {
-                    const data = snapshot.val();
+                const data = snapshot.val();
+                if (snapshot.exists && data) {
                     data.players = snapshotListToArray(snapshot.child('players'));
                     data.topicData = await getTopicData(data.topicId);
 
@@ -55,7 +55,7 @@ export const useGameSnapshot = (gameId) => {
                             data.promptAnswers = snapshotListToMap(snapshot.child('prompt_answers'));
                             data.pendingPlayers = getPendingPlayers(data.promptAnswers, data.players);
                             if (data.pendingPlayers.length === 0) {
-                                // we should increment the step now
+                            // we should increment the step now
                                 await incrementGameStep({ gameData: data });
                             }
                             break;
@@ -76,9 +76,8 @@ export const useGameSnapshot = (gameId) => {
                                 }
                             }
                     }
-                    console.log('data in snapshot: ', data);
+                    console.log('SETTING GAME DATA TO STORE: ', data);
                     dispatch(Actions.setGameData(data));
-                    return data;
                 }
             });
 

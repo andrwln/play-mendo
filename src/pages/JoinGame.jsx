@@ -7,7 +7,8 @@ export default function HostGame(props) {
     const [playerName, setName] = useState('');
     const [gameId, setGameId] = useState('');
     async function joinRoom() {
-        await joinGameAsPlayer({ playerName, gameId, dispatch});
+        const sanitizedId = gameId.toLowerCase();
+        await joinGameAsPlayer({ playerName, gameId: sanitizedId, dispatch});
         props.history.push(`/game/${gameId}`);
     }
     const buttonDisabled = playerName.length === 0 && gameId.length === 0;

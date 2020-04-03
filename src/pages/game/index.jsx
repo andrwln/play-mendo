@@ -47,6 +47,6 @@ export default function GameContainer(props) {
             }
         }
     },[]);
-    useGameSnapshot(id);
+    useGameSnapshot(id.toLowerCase());
     return generateGameComponent(state);
 }
