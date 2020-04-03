@@ -3,7 +3,7 @@ import { db, realtimeDB, getPlayersData, getTopicData } from '.';
 import { useStore } from '../store/useStore';
 import { Actions } from '../store/actions';
 import { snapshotListToArray, snapshotListToMap, getPendingPlayers } from '../utils';
-import { incrementGameStep } from '../gameController';
+import { incrementGameStep, incrementPlayerTurnIndex } from '../gameController';
 
 export const useGameSnapshot = (gameId) => {
     const { dispatch } = useStore();
@@ -44,7 +44,6 @@ export const useGameSnapshot = (gameId) => {
         const unsubscribeGames = realtimeDB.ref(`games/${gameId}`)
             .on('value', async snapshot => {
                 if (snapshot.exists) {
-                    console.log('game snapshot updated with doc: ', snapshot.val());
                     const data = snapshot.val();
                     data.players = snapshotListToArray(snapshot.child('players'));
                     data.topicData = await getTopicData(data.topicId);
@@ -57,29 +56,41 @@ export const useGameSnapshot = (gameId) => {
                             data.pendingPlayers = getPendingPlayers(data.promptAnswers, data.players);
                             if (data.pendingPlayers.length === 0) {
                                 // we should increment the step now
-                                incrementGameStep({ gameData: data });
+                                await incrementGameStep({ gameData: data });
                             }
                             break;
                         case 2:
-                            // data.
+                            data.guesses = {};
+                            data.activePlayer = data.players[data.playerTurnIndex];
+                            // there is a list of guesses for each player
+                            // create a map of guesses by player ID, with each player having a list of
+                            // guesses from other players
+                            snapshot.child('guesses').forEach(playerIdSnapshot => {
+                                data.guesses[playerIdSnapshot.key] = snapshotListToMap(playerIdSnapshot);
+                            });
+                            if (data.guesses[data.activePlayer.id] && data.guesses[data.activePlayer.id].count + 1 === data.players.length) {
+                                if (data.playerTurnIndex < data.players.length - 1) {
+                                    await incrementPlayerTurnIndex({ gameData: data });
+                                } else {
+                                    await incrementGameStep({ gameData: data });
+                                }
+                            }
                     }
+                    console.log('data in snapshot: ', data);
                     dispatch(Actions.setGameData(data));
                     return data;
                 }
             });
 
-        // const unsubscribePlayers = db.collection(`games/${gameId}/players`)
-        //     .onSnapshot({
-        //         includeMetadataChanges: true,
-        //     }, async snapshots => {
-        //         const players = [];
-        //         snapshots.forEach(doc => {
-        //             players.push({ ...doc.data(), playerId: doc.id });
-        //         });
-        //         console.log('updated players: ', players);
-        //         dispatch(Actions.updateGameData({ players }));
-        //     });
-
+        // const unsubscribePromptAnswers = realtimeDB.ref(`games/${gameId}/prompt_answers`)
+        //     .on('value', async snapshot => {
+        //         data.promptAnswers = snapshotListToMap(snapshot.child('prompt_answers'));
+        //         data.pendingPlayers = getPendingPlayers(data.promptAnswers, data.players);
+        //         if (data.pendingPlayers.length === 0) {
+        //             // we should increment the step now
+        //             await incrementGameStep({ gameData: data });
+        //         }
+        //     })
         // turn off snapshot listener
         return () => {
             unsubscribeGames();

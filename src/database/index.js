@@ -50,7 +50,7 @@ export const addPlayerToGame = async (gameId, playerData) => {
 
 export const updateGameData = async (gameId, data) => {
     try {
-        await realtimeDB.ref(`games/${gameId}`).update(data);
+        return await realtimeDB.ref(`games/${gameId}`).update(data);
     } catch (err) {
         console.error('error updating game data: ', err);
     }
@@ -66,23 +66,39 @@ export const getTopicData = async (topicId) => {
 };
 
 
-export const addPlayerPromptAnswer = async ({ gameId, answer }) => {
+export const addPlayerPromptAnswer = async ({ gameData, answer }) => {
     try {
+        const gameId = gameData.id;
         const playersRef = await realtimeDB.ref(`games/${gameId}/prompt_answers`).push();
-        await playersRef.set(answer);
+        return await playersRef.set(answer);
+        // const promptAnswersRef = realtimeDB.ref(`games/${gameId}/prompt_answers`);
+        // const promptAnswersSnapshot = await promptAnswersRef.once('value');
+        // const answersCount = Object.keys(promptAnswersSnapshot.val()).length;
+        // if (answersCount === gameData.players.length) {
+        //     return await updateGameData(gameId, { stepIndex: gameData.stepIndex + 1 });
+        // }
+        // return answersPromise;
+
     } catch(err) {
         console.error('error adding prompt answer: ', err);
     }
 };
 
-export const addPlayerGuessAnswer = async ({ gameId, focusedPlayerId, answer }) => {
+export const addPlayerGuessAnswer = async ({ gameData, focusedPlayerId, answer }) => {
     try {
-        const guessesRef = await realtimeDB.ref(`games/${gameId}/guesses/${focusedPlayerId}`).push();
-        const guess = await guessesRef.set(answer);
+        const gameId = gameData.id;
+        const newGuessRef = await realtimeDB.ref(`games/${gameId}/guesses/${focusedPlayerId}`).push();
+        return await newGuessRef.set(answer);
+        // const guessesListRef = realtimeDB.ref(`games/${gameId}/guesses/${focusedPlayerId}`);
+        // const guessListSnapshot = await guessesListRef.once('value');
+        // const guessCount = Object.keys(guessListSnapshot.val()).length;
+        // if (guessCount + 1 === gameData.players.length) {
+        //     return await updateGameData(gameId, { playerTurnIndex: gameData.playerTurnIndex + 1 });
+        // }
     } catch (err) {
         console.error('error adding player guess: ', err);
     }
-}
+};
 
 // export const getPlayersData = async (gameId) => {
 //     try {

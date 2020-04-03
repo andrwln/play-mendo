@@ -3,7 +3,6 @@ import { useStore } from '../../store/useStore';
 import { setPlayerPromptAnswer } from '../../gameController';
 import { getPendingPlayers } from '../../utils';
 
-
 export default function Prompt() {
     const { state, dispatch } = useStore();
     const { gameData, playerData } = state;
@@ -11,9 +10,9 @@ export default function Prompt() {
     const [ selectedAnswer, setSelectedAnswer ] = useState(null);
     const answerSubmitted = !!promptAnswers[playerData.id];
     console.log('state: ', state);
-    async function handleSubmitAnswer() {
+    function handleSubmitAnswer() {
         // update game data with Player's answer
-        await setPlayerPromptAnswer({ playerId: playerData.id, answerId: selectedAnswer, gameId: gameData.id });
+        setPlayerPromptAnswer({ playerId: playerData.id, answerId: selectedAnswer, gameData });
         // once answer submitted, disable button and set answered state
     }
     // we need to see who else hasn't answered
@@ -42,7 +41,7 @@ export default function Prompt() {
                 );
             })}
             <button onClick={ handleSubmitAnswer } disabled={ disableSubmitBtn }>Submit Answer</button>
-            {pendingPlayers.length && <div>Just waiting on {pendingPlayers.join(', ')}!!!</div>}
+            {!!pendingPlayers.length && <div>Just waiting on {pendingPlayers.join(', ')}!!!</div>}
         </div>
     );
 }

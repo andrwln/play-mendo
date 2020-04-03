@@ -31,13 +31,15 @@ export function snapshotListToArray(snapshot) {
 
 export function snapshotListToMap(snapshot) {
     let map = {};
-
+    let count = 0;
     snapshot.forEach(childSnapshot => {
         map = {
             ...map,
             ...childSnapshot.val(),
         };
+        count++;
     });
+    map.count = count;
     return map;
 }
 

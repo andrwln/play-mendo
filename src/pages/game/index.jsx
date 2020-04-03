@@ -7,6 +7,7 @@ import { useGameSnapshot } from '../../database/snapshotHooks';
 import Lobby from './Lobby';
 import Prompt from './Prompt';
 import Guess from './Guess';
+import Results from './Results';
 
 function generateGameComponent(state) {
     const { gameData } = state;
@@ -22,6 +23,8 @@ function generateGameComponent(state) {
             return <Prompt />;
         case 2:
             return <Guess />;
+        case 3:
+            return <Results />;
         default:
             return <Lobby />;
     }

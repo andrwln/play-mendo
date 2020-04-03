@@ -1,29 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../../store/useStore';
 import { incrementPlayerTurnIndex, setPlayerGuessAnswer } from '../../gameController';
 
-export default function Lobby() {
+export default function Guess() {
     const { state } = useStore();
     const [selectedAnswer, setSelectedAnswer] = useState(null);
-    console.log('state in lobby: ', state);
     const { playerData, gameData } = state;
-    const { playerTurnIndex, players, topicData, id: gameId } = gameData;
+    const { playerTurnIndex, players, topicData, guesses } = gameData;
     const { topic, answers } = topicData;
     const playerList = players && players.map(player => player.name);
     const focusedPlayer = players[playerTurnIndex];
     const playerId = playerData.id;
     const focusedPlayerId = focusedPlayer.id;
-
     const currentPlayerIsFocused = focusedPlayer.id === playerData.id;
+    const guessesMap = guesses[focusedPlayerId] ? guesses[focusedPlayerId] : {};
     // we need track who has guessed already
+    const completedGuessing = guessesMap[playerId];
+    useEffect(() => {
+        // whenever it's a new player's turn reset the form
+        setSelectedAnswer(null);
+    }, [playerTurnIndex]);
     // how many people are left to guess
     // once everybody has guessed, show results
 
-    async function submitGuess() {
+    function submitGuess() {
         // send in answer
-        await setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId: selectedAnswer, gameId });
-        //increment player turn index
-        incrementPlayerTurnIndex({ gameData });
+        setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId: selectedAnswer, gameData });
     }
 
     console.log('answers: ', answers);
@@ -53,7 +55,7 @@ export default function Lobby() {
                             );
                         })}
                     </div>
-                    <button onClick={ submitGuess }>Submit your guess!</button>
+                    <button onClick={ submitGuess } disabled={ completedGuessing }>Submit your guess!</button>
                 </div>
                 :
                 <div>They're guessing your answer right now so just CHILL</div> }

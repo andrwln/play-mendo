@@ -47,33 +47,33 @@ export async function joinGameAsPlayer({ playerName, gameId, dispatch }) {
     setSessionData('playMendoPlayer', player);
 }
 
-export function incrementGameStep({gameData}) {
+export async function incrementGameStep({gameData}) {
     // goes to the next step of the game
     const gameId = gameData.id;
     const currentStep = gameData.stepIndex;
 
-    updateGameData(gameId, { stepIndex: currentStep + 1 });
+    return await updateGameData(gameId, { stepIndex: currentStep + 1 });
 }
 
-export function incrementPlayerTurnIndex({gameData}) {
+export async function incrementPlayerTurnIndex({gameData}) {
     const gameId = gameData.id;
     const currentPlayerTurnIndex = gameData.playerTurnIndex;
 
-    updateGameData(gameId, { playerTurnIndex: currentPlayerTurnIndex + 1 });
+    return await updateGameData(gameId, { playerTurnIndex: currentPlayerTurnIndex + 1 });
 }
 
-export async function setPlayerPromptAnswer({ playerId, answerId, gameId }) {
+export async function setPlayerPromptAnswer({ playerId, answerId, gameData }) {
     const answer = {
         [playerId]: answerId,
     };
 
-    return await addPlayerPromptAnswer({ gameId, answer });
+    return await addPlayerPromptAnswer({ gameData, answer });
 }
 
-export async function setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId, gameId }) {
+export async function setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId, gameData }) {
     const answer = {
         [playerId]: answerId,
     };
 
-    return await addPlayerGuessAnswer({ gameId, focusedPlayerId, answer });
+    return await addPlayerGuessAnswer({ gameData, focusedPlayerId, answer });
 }
