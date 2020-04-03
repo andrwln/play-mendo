@@ -1,5 +1,5 @@
 import { Actions } from './store/actions';
-import { createGame, addPlayerToGame, createTopic, updateGameData, addPlayerPromptAnswer, addPlayerGuessAnswer } from './database';
+import { createGame, addPlayerToGame, createTopic, updateGameData, incrementStepIndex, addPlayerPromptAnswer, addPlayerGuessAnswer } from './database';
 import { setSessionData } from './store/sessionStorageUtils';
 import { gameDefaults } from './staticData';
 import { generateDataId, generateGameCode } from './utils';
@@ -52,14 +52,14 @@ export async function incrementGameStep({gameData}) {
     const gameId = gameData.id;
     const currentStep = gameData.stepIndex;
 
-    return await updateGameData(gameId, { stepIndex: currentStep + 1 });
+    return await incrementStepIndex(gameId, 'stepIndex');
 }
 
 export async function incrementPlayerTurnIndex({gameData}) {
     const gameId = gameData.id;
     const currentPlayerTurnIndex = gameData.playerTurnIndex;
 
-    return await updateGameData(gameId, { playerTurnIndex: currentPlayerTurnIndex + 1 });
+    return await incrementStepIndex(gameId, 'playerTurnIndex');
 }
 
 export async function setPlayerPromptAnswer({ playerId, answerId, gameData }) {

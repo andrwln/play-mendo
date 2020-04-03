@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useStore } from '../../store/useStore';
-import { setPlayerPromptAnswer } from '../../gameController';
+import { setPlayerPromptAnswer, incrementGameStep } from '../../gameController';
 import { getPendingPlayers } from '../../utils';
 
 export default function Prompt() {
@@ -10,9 +10,15 @@ export default function Prompt() {
     const [ selectedAnswer, setSelectedAnswer ] = useState(null);
     const answerSubmitted = !!promptAnswers[playerData.id];
     console.log('state: ', state);
-    function handleSubmitAnswer() {
+    async function handleSubmitAnswer() {
         // update game data with Player's answer
-        setPlayerPromptAnswer({ playerId: playerData.id, answerId: selectedAnswer, gameData });
+        await setPlayerPromptAnswer({ playerId: playerData.id, answerId: selectedAnswer, gameData });
+        console.log('pending players after setting prompt answer: ', pendingPlayers);
+        if (pendingPlayers.length === 1) {
+            setTimeout(() => {
+                incrementGameStep({ gameData });
+            }, 1000);
+        }
         // once answer submitted, disable button and set answered state
     }
     // we need to see who else hasn't answered

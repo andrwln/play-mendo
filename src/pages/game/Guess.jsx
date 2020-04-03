@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from '../../store/useStore';
-import { incrementPlayerTurnIndex, setPlayerGuessAnswer } from '../../gameController';
+import { incrementPlayerTurnIndex, incrementGameStep, setPlayerGuessAnswer } from '../../gameController';
 
 export default function Guess() {
     const { state } = useStore();
@@ -20,12 +20,20 @@ export default function Guess() {
         // whenever it's a new player's turn reset the form
         setSelectedAnswer(null);
     }, [playerTurnIndex]);
-    // how many people are left to guess
-    // once everybody has guessed, show results
 
-    function submitGuess() {
+    async function submitGuess() {
         // send in answer
-        setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId: selectedAnswer, gameData });
+        await setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId: selectedAnswer, gameData });
+
+        setTimeout(async () => {
+            if (guesses[focusedPlayerId] && guesses[focusedPlayerId].count + 1 === players.length - 1) {
+                if (playerTurnIndex < players.length - 1) {
+                    await incrementPlayerTurnIndex({ gameData });
+                } else {
+                    await incrementGameStep({ gameData });
+                }
+            }
+        }, 500);
     }
 
     console.log('answers: ', answers);

@@ -7,39 +7,7 @@ import { incrementGameStep, incrementPlayerTurnIndex } from '../gameController';
 
 export const useGameSnapshot = (gameId) => {
     const { dispatch } = useStore();
-    // useEffect(() => {
-    //     const unsubscribeGames = db.collection('games').doc(gameId)
-    //         .onSnapshot({
-    //             includeMetadataChanges: true,
-    //         }, async doc => {
-    //             console.log('game snapshot updated with doc: ', doc.data());
-    //             if (doc.exists) {
-    //                 const data = doc.data();
-    //                 // if (!data.players) data.players = await getPlayersData(gameId);
-    //                 data.topicData = await getTopicData(data.topicId);
-    //                 dispatch(Actions.setGameData(data));
-    //                 return data;
-    //             }
-    //         });
 
-    //     const unsubscribePlayers = db.collection(`games/${gameId}/players`)
-    //         .onSnapshot({
-    //             includeMetadataChanges: true,
-    //         }, async snapshots => {
-    //             const players = [];
-    //             snapshots.forEach(doc => {
-    //                 players.push({ ...doc.data(), playerId: doc.id });
-    //             });
-    //             console.log('updated players: ', players);
-    //             dispatch(Actions.updateGameData({ players }));
-    //         });
-
-    //     // turn off snapshot listener
-    //     return () => {
-    //         unsubscribeGames();
-    //         unsubscribePlayers();
-    //     };
-    // }, []);
     useEffect(() => {
         const unsubscribeGames = realtimeDB.ref(`games/${gameId}`)
             .on('value', async snapshot => {
@@ -54,10 +22,7 @@ export const useGameSnapshot = (gameId) => {
                         case 1:
                             data.promptAnswers = snapshotListToMap(snapshot.child('prompt_answers'));
                             data.pendingPlayers = getPendingPlayers(data.promptAnswers, data.players);
-                            if (data.pendingPlayers.length === 0) {
-                            // we should increment the step now
-                                await incrementGameStep({ gameData: data });
-                            }
+
                             break;
                         case 2:
                             data.guesses = {};
@@ -68,13 +33,6 @@ export const useGameSnapshot = (gameId) => {
                             snapshot.child('guesses').forEach(playerIdSnapshot => {
                                 data.guesses[playerIdSnapshot.key] = snapshotListToMap(playerIdSnapshot);
                             });
-                            if (data.guesses[data.activePlayer.id] && data.guesses[data.activePlayer.id].count + 1 === data.players.length) {
-                                if (data.playerTurnIndex < data.players.length - 1) {
-                                    await incrementPlayerTurnIndex({ gameData: data });
-                                } else {
-                                    await incrementGameStep({ gameData: data });
-                                }
-                            }
                     }
                     console.log('SETTING GAME DATA TO STORE: ', data);
                     dispatch(Actions.setGameData(data));
