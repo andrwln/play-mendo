@@ -47,21 +47,20 @@ export function getItemByIdFromArr(id, arr) {
     return arr.find(el => el.id === id);
 }
 
-// export function convertPromptAnswersToMap(answers) {
-//     const answerMap = {};
-//     answers.forEach(answer => {
-//         const keys = Object.keys(answer);
-//         answerMap[answer];
-//     });
-// }
-
 export function getPendingPlayers(answers, players) {
     // given list of answers and players returns list of players who still need to answer
     const pending = [];
+
     players.forEach(player => {
         if (!answers[player.id]) {
             pending.push(player.name);
         }
     });
     return pending;
+}
+
+export function getRemainingGuessers(guesses, players, focusedPlayerId) {
+    const guessingPlayers = players.filter(player => player.id !== focusedPlayerId);
+
+    return getPendingPlayers(guesses[focusedPlayerId], guessingPlayers);
 }

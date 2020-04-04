@@ -50,14 +50,12 @@ export async function joinGameAsPlayer({ playerName, gameId, dispatch }) {
 export async function incrementGameStep({gameData}) {
     // goes to the next step of the game
     const gameId = gameData.id;
-    const currentStep = gameData.stepIndex;
 
     return await incrementStepIndex(gameId, 'stepIndex');
 }
 
 export async function incrementPlayerTurnIndex({gameData}) {
     const gameId = gameData.id;
-    const currentPlayerTurnIndex = gameData.playerTurnIndex;
 
     return await incrementStepIndex(gameId, 'playerTurnIndex');
 }

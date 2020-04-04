@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from '../../store/useStore';
 import { incrementPlayerTurnIndex, incrementGameStep, setPlayerGuessAnswer } from '../../gameController';
+import { getRemainingGuessers } from '../../utils';
 
 export default function Guess() {
     const { state } = useStore();
     const [selectedAnswer, setSelectedAnswer] = useState(null);
+    // const [guessingCompleted, setGuessingCompleted] = useState(false);
     const { playerData, gameData } = state;
     const { playerTurnIndex, players, topicData, guesses } = gameData;
     const { topic, answers } = topicData;
@@ -16,6 +18,9 @@ export default function Guess() {
     const guessesMap = guesses[focusedPlayerId] ? guesses[focusedPlayerId] : {};
     // we need track who has guessed already
     const completedGuessing = guessesMap[playerId];
+    const guessersRemaining = guesses[focusedPlayerId] ? getRemainingGuessers(guesses, players, focusedPlayerId) : [];
+    const guessingCompleted = guesses[focusedPlayerId] && guessersRemaining.length === 0;
+    console.log('guessers remaining: ', guessersRemaining);
     useEffect(() => {
         // whenever it's a new player's turn reset the form
         setSelectedAnswer(null);
@@ -24,16 +29,13 @@ export default function Guess() {
     async function submitGuess() {
         // send in answer
         await setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId: selectedAnswer, gameData });
-
-        setTimeout(async () => {
-            if (guesses[focusedPlayerId] && guesses[focusedPlayerId].count + 1 === players.length - 1) {
-                if (playerTurnIndex < players.length - 1) {
-                    await incrementPlayerTurnIndex({ gameData });
-                } else {
-                    await incrementGameStep({ gameData });
-                }
-            }
-        }, 500);
+    }
+    function handleClickContinue() {
+        if (playerTurnIndex < players.length -1) {
+            incrementPlayerTurnIndex({ gameData });
+        } else {
+            incrementGameStep({ gameData });
+        }
     }
 
     console.log('answers: ', answers);
@@ -67,6 +69,12 @@ export default function Guess() {
                 </div>
                 :
                 <div>They're guessing your answer right now so just CHILL</div> }
+
+            {guessingCompleted &&
+            <div>
+                DONE GUESSING, show results here:
+                {playerData.isHost && <button onClick={ handleClickContinue }>Next Player</button>}
+            </div>}
         </div>
     );
 }

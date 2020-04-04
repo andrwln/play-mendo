@@ -39,19 +39,9 @@ export const useGameSnapshot = (gameId) => {
                 }
             });
 
-        // const unsubscribePromptAnswers = realtimeDB.ref(`games/${gameId}/prompt_answers`)
-        //     .on('value', async snapshot => {
-        //         data.promptAnswers = snapshotListToMap(snapshot.child('prompt_answers'));
-        //         data.pendingPlayers = getPendingPlayers(data.promptAnswers, data.players);
-        //         if (data.pendingPlayers.length === 0) {
-        //             // we should increment the step now
-        //             await incrementGameStep({ gameData: data });
-        //         }
-        //     })
         // turn off snapshot listener
         return () => {
             unsubscribeGames();
-            // unsubscribePlayers();
         };
     }, []);
 };
