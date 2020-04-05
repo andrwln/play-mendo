@@ -73,6 +73,15 @@ export const getTopicData = async (topicId) => {
     }
 };
 
+export const getAllTopics = async () => {
+    try {
+        const topics = await realtimeDB.ref('topics').once('value');
+        return topics;
+    } catch (err) {
+        console.log('error getting all topics data: ', err);
+    }
+};
+
 
 export const addPlayerPromptAnswer = async ({ gameData, answer }) => {
     try {

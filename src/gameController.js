@@ -6,7 +6,7 @@ import { generateDataId, generateGameCode } from './utils';
 
 // functions to manage interaction between the react view layer, the react data store, and the database
 
-export async function initiateNewGame({ playerName, topicRawData, dispatch }) {
+export async function initiateNewGame({ playerName, topicId, dispatch }) {
     const playerId = generateDataId();
     const gameId = generateGameCode();
     // creates game as host
@@ -16,7 +16,7 @@ export async function initiateNewGame({ playerName, topicRawData, dispatch }) {
         isHost: true,
         isOnline: true,
     };
-    const topicId = await createTopic(topicRawData);
+    // const topicId = await createTopic(topicRawData);
     const gameData = {
         ...gameDefaults,
         id: gameId,

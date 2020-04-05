@@ -11,8 +11,8 @@ export const useGameSnapshot = (gameId) => {
     useEffect(() => {
         const unsubscribeGames = realtimeDB.ref(`games/${gameId}`)
             .on('value', async snapshot => {
-                const data = snapshot.val();
-                if (snapshot.exists && data) {
+                if (snapshot && snapshot.exists) {
+                    const data = snapshot.val();
                     data.players = snapshotListToArray(snapshot.child('players'));
                     data.topicData = await getTopicData(data.topicId);
 

@@ -64,3 +64,12 @@ export function getRemainingGuessers(guesses, players, focusedPlayerId) {
 
     return getPendingPlayers(guesses[focusedPlayerId], guessingPlayers);
 }
+
+export function generateTopicSelectOptions(topics) {
+    return topics.map(topic => {
+        return {
+            value: topic.id,
+            label: topic.topic,
+        };
+    });
+}
