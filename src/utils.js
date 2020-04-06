@@ -1,3 +1,5 @@
+import keycode from 'keycode';
+
 const possibleDigits = 'abcdefghijklmnopqrstuvwxyz123456789';
 export function generateUniqueId(length = 6) {
     let code = '';
@@ -73,3 +75,14 @@ export function generateTopicSelectOptions(topics) {
         };
     });
 }
+
+export const keySpaceEnter = (event, callback) => {
+    switch (keycode(event)) {
+        case 'enter':
+        case 'space':
+            event.preventDefault();
+            callback(event);
+            break;
+    }
+};
+

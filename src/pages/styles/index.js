@@ -9,6 +9,9 @@ export const StyledPageContainer = styled.div.attrs(() => ({
     height: 100%;
     .headerSection {
         height: 30%;
+        img {
+            height: 100%;
+        }
     }
     .mainSection {
         box-sizing: border-box;

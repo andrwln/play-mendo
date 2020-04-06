@@ -8,6 +8,7 @@ import Button from '../components/Button';
 import { initiateNewGame } from '../gameController';
 import { getAllTopics } from '../database';
 import { snapshotListToArray, generateTopicSelectOptions } from '../utils';
+import CreateTopic from '../components/CreateTopic';
 
 export default function HostGame(props) {
     const { state, dispatch } = useStore();
@@ -36,6 +37,7 @@ export default function HostGame(props) {
                 <img src='/img/logo.svg' />
             </div>
             <div className='mainSection'>
+                {/* <CreateTopic /> */}
                 <div>
                     <Input placeholderText='Set Your Player Name' handleInputChanged={ setName } />
                 </div>
