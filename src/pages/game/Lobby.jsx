@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import Loader from 'react-loader-spinner';
 import { useStore } from '../../store/useStore';
 import { incrementGameStep } from '../../gameController';
 import { StyledPageContainer } from '../styles';
 import Button from '../../components/Button';
+import PlayerIcon from '../../components/PlayerIcon';
 
 export default function Lobby() {
     const { state } = useStore();
-    console.log('state in lobby: ', state);
     const { playerData, gameData } = state;
     const gameId = gameData.id;
     const players = gameData.players;
@@ -16,39 +17,68 @@ export default function Lobby() {
         incrementGameStep({ gameId, gameData });
     }
 
-    const playerList = players && players.map(player => player.name);
+    // const extraPlayers = [...players, ...players, ...players, ...players, ...players, ...players]
     return (
         <LobbyPageContainer>
             <div className='headerSection'>
                 <img src='/img/logo.svg' />
             </div>
             <div className='mainSection'>
-                {playerList && <div>These are the players that have joined: {playerList.join(', ')} </div>}
+                <div className='playersContainer'>
+                    {players.map((player, playerIdx) => {
+                        return (
+                            <div key={ `player-icon-${playerIdx}` }>
+                                <PlayerIcon
+                                    playerIndex={ playerIdx }
+                                    playerName={ player.name }
+                                    showTooltip={ false }
+                                    isActive
+                                />
+                                <div>{player.name}</div>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
             <div className='footerSection'>
                 <div className='roomCodeDisplay'>
                     Your Room Code is: <strong>{gameId.toUpperCase()}</strong>
                 </div>
-                <div className='shareText'>Copy and share this Room Code to your friends!</div>
                 {playerData.isHost ?
                     <div className='btnContainer'>
                         <Button className='startGame' onClick={ startGame }>Everybody's in! Let's Start!</Button>
                     </div> :
-                    <div className='nonHostText'>Waiting for all players to join -- show some loading animation here...</div>}
+                    <div>
+                        <div className='nonHostText'>Waiting for all players to join...</div>
+                        <Loader
+                            type='ThreeDots'
+                            color='#7d7d7d'
+                            height={ 80 }
+                            width={ 80 }
+                        />
+                    </div>}
                 <div className='createdBy'>created by JDAK</div>
             </div>
         </LobbyPageContainer>
-        // <div>
-        //     <div>This is the lobby y'all of game with ID: {gameId.toUpperCase()}</div>
-        //     {playerData && <div>HI THERE YOUR NAME IS <strong>{playerData.name}</strong> and you are GREAT</div>}
-        //     {playerData && playerData.isHost && <button onClick={ startGame }>START THIS DANG GAME</button>}
-        // </div>
     );
 }
 
 const LobbyPageContainer = styled(StyledPageContainer)`
     .headerSection {
         height: 24%;
+    }
+    .mainSection {
+        .playersContainer {
+            display: flex;
+            flex-flow: wrap;
+            justify-content: flex-start;
+            padding: 0 10%;
+            .Styled-PlayerIcon {
+                margin: 15px;
+                width: 120px;
+                height: 120px;
+            }
+        }
     }
     .footerSection {
         display: flex;
@@ -82,7 +112,7 @@ const LobbyPageContainer = styled(StyledPageContainer)`
             font-size: 12px;
         }
         .nonHostText {
-            font-size: 32px;
+            font-size: 18px;
             font-weight: bold;
             color: #000000;
         }

@@ -51,6 +51,9 @@ const LandingPageContainer = styled(StyledPageContainer)`
                 background-color: #ffffff;
                 color: #000000;
                 border: 1px solid #000000;
+                &:hover {
+                    background-color: #ededed;
+                }
             }
         }
     }

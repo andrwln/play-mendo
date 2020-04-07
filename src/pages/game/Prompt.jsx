@@ -26,7 +26,6 @@ export default function Prompt() {
     }
     // we need to see who else hasn't answered
     // we need to disable button once answer submitted
-    // const disableSubmitBtn = !selectedAnswer || answerSubmitted;
     const pendingPlayers = getPendingPlayers(promptAnswers, players);
 
     return (
@@ -42,9 +41,6 @@ export default function Prompt() {
                     :
                     <PendingPlayers submittedAnswers={ promptAnswers } players={ players } />}
             </div>
-            {/* <div className='footerSection'>
-                <Button onClick={ () => incrementGameStep({ gameData }) }>End Round</Button>
-            </div> */}
         </PromptPageContainer>
     );
 }

@@ -52,7 +52,7 @@ export default function HostGame(props) {
             </div>
             <div className='footerSection'>
                 <StyledButtonContainer>
-                    <Button className='startGame' disabled={ buttonDisabled } onClick={ startNewGame }>Start new game</Button>
+                    <Button className='startGame' disabled={ buttonDisabled } onClick={ startNewGame }>Create game</Button>
                     <div className='createdBy'>created by JDAK</div>
                 </StyledButtonContainer>
             </div>

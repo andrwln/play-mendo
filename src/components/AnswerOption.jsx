@@ -38,11 +38,12 @@ const StyledAnswerOption = styled.div.attrs(() => ({
     padding: 10px;
     box-sizing: border-box;
     cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid transparent;
     ${props => props.isSelected &&
     css`
         background: #E5E5E5;
         border: 1px solid #000000;
-        border-radius: 4px;
     `}
     .answerLabel {
         display: flex;

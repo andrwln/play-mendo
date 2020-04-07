@@ -98,7 +98,7 @@ function WaitingDisplay() {
 function GuessingDisplay({ focusedPlayer, submitGuess, answers}) {
     return (
         <>
-            <div className='topicDescription'>How would {focusedPlayer.name} answer the question?</div>
+            <div className='topicDescription'>How would <strong>{focusedPlayer.name}</strong> answer the question?</div>
             <AnswerOptions answers={ answers } handleSubmit={ submitGuess } />
         </>
     );

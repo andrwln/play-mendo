@@ -6,7 +6,7 @@ export default function PendingPlayers(props) {
     const { submittedAnswers, players } = props;
     return (
         <PendingPlayersContainer>
-            <div className='pendingText'>Your answer is received. Now we wait for the indecisive players...</div>
+            <div className='pendingText'>Your answer is received! Now we wait for the indecisive players...</div>
             <div className='playersContainer'>
                 {players.map((player, playerIdx) => {
                     return (
@@ -15,6 +15,7 @@ export default function PendingPlayers(props) {
                             isActive={ !!submittedAnswers[player.id] }
                             playerIndex={ playerIdx }
                             playerName={ player.name }
+                            showTooltip
                         />
                     );
                 })}
@@ -28,7 +29,7 @@ const PendingPlayersContainer = styled.div.attrs(() => ({
 }))`
     .pendingText {
         font-weight: bold;
-        font-size: 32px;
+        font-size: 20px;
         margin-bottom: 36px;
     }
     .playersContainer {
@@ -38,6 +39,9 @@ const PendingPlayersContainer = styled.div.attrs(() => ({
         padding: 0 15%;
         .Styled-PlayerIcon {
             margin: 15px;
+            img {
+                height: 75%;
+            }
         }
     }
 

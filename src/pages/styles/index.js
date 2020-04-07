@@ -15,7 +15,7 @@ export const StyledPageContainer = styled.div.attrs(() => ({
     }
     .mainSection {
         box-sizing: border-box;
-        height: 50%;
+        min-height: 50%;
         padding: 20px;
     }
     .footerSection {
@@ -32,9 +32,13 @@ export const StyledPageContainer = styled.div.attrs(() => ({
         color: #000000;
         box-shadow: 1px 1px 5px grey;
         background-color: #ecbf4b;
+        &:hover {
+            background-color: #e0b546;
+        }
         &.disabled {
             background-color: #c4c4c4;
             cursor: default;
         }
+        
     }
 `;

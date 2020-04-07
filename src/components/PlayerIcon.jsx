@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 export default function PlayerIcon(props) {
-    const { isActive, playerIndex, playerName } = props;
+    const { isActive, playerIndex, playerName, showTooltip } = props;
     const [ isHovered, setIsHovered ] = useState(false);
     const playerInitial = playerName.substring(0, 1);
     return (
@@ -11,11 +11,13 @@ export default function PlayerIcon(props) {
             onMouseEnter={ () => setIsHovered(true) }
             onMouseLeave={ () => setIsHovered(false) }
         >
-            {playerInitial}
-            <TooltipContainer className={ isHovered ? 'show' : 'hide' }>
+            {/* {playerInitial} */}
+            <img src='/img/coffeemug.svg' />
+            {showTooltip &&
+            <TooltipContainer className={ isHovered || !isActive ? 'show' : 'hide' }>
                 {playerName}
                 <TooltipArrow />
-            </TooltipContainer>
+            </TooltipContainer>}
         </StyledIcon>
     );
 }
