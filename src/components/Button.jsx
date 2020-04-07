@@ -19,4 +19,6 @@ const StyledButton = styled.button.attrs(() => ({
     border-radius: 5px;
     font-size: 18px;
     cursor: pointer;
+    height: 64px;
+    width: 360px;
 `;

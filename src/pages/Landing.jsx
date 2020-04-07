@@ -42,8 +42,8 @@ const LandingPageContainer = styled(StyledPageContainer)`
         }
         .buttonContainer {
             display: flex;
-            height: 48px;
             .Styled-Button {
+                height: 48px;
                 width: 200px;
                 margin-right: 16px;
             }

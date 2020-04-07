@@ -21,4 +21,11 @@ export const StyledPageContainer = styled.div.attrs(() => ({
     .footerSection {
         height: 20%;
     }
+    .fixedSubmitBtn {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 100px;
+        height: 40px;
+    }
 `;

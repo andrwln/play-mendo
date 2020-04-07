@@ -45,7 +45,7 @@ export function snapshotListToMap(snapshot) {
     return map;
 }
 
-export function getItemByIdFromArr(id, arr) {
+export function getItemByIdFromArr(arr, id) {
     return arr.find(el => el.id === id);
 }
 
@@ -76,7 +76,7 @@ export function generateTopicSelectOptions(topics) {
     });
 }
 
-export const keySpaceEnter = (event, callback) => {
+export function keySpaceEnter(event, callback) {
     switch (keycode(event)) {
         case 'enter':
         case 'space':
@@ -86,3 +86,48 @@ export const keySpaceEnter = (event, callback) => {
     }
 };
 
+export function getMostPopularGuess(guesses) {
+    // returns most popular guess as an answer object
+    const guessesMap = {};
+    Object.keys(guesses).forEach(playerId => {
+        const guessAnswerId = guesses[playerId];
+        if (playerId === 'count') return;
+        if (guessesMap[guessAnswerId]) {
+            guessesMap[guessAnswerId].push(playerId);
+        } else {
+            guessesMap[guessAnswerId] = [playerId];
+        }
+    });
+
+    const guessDataArr = Object.keys(guessesMap).map(answerId => {
+        const playerList = guessesMap[answerId];
+        const guessObj = {};
+        guessObj.count = playerList.length;
+        guessObj.playerIds = playerList;
+        guessObj.answerId = answerId;
+        return guessObj;
+    });
+
+    // return guess arr ordered by number of votes
+    return guessDataArr.sort((a, b) => {
+        return b.count - a.count;
+    });
+};
+
+export function getTopGroupGuess(guessBreakdown, answerOptions) {
+    const topVoteCount = guessBreakdown[0].count;
+    const topAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[0].answerId);
+    const topAnswerList = [topAnswer.label];
+    let searching = true;
+    let index = 1;
+    let otherTopAnswer = null
+    while(searching && index < guessBreakdown.length) {
+        if (guessBreakdown[index].count === topVoteCount) {
+            otherTopAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[index].id);
+            topAnswerList.push(otherTopAnswer.label);
+        } else {
+            searching = false;
+        }
+    }
+    return topAnswerList.join(', ');
+}

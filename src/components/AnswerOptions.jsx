@@ -18,7 +18,7 @@ export default function AnswerOptions(props) {
                     />
                 );
             })}
-            <Button className='submitAnswer' onClick={ handleSubmit }>Submit Answer</Button>
+            <Button className='fixedSubmitBtn' onClick={ () => handleSubmit(selectedAnswer) }>Submit Answer</Button>
         </StyledOptionsContainer>
     );
 }
@@ -30,11 +30,4 @@ const StyledOptionsContainer = styled.div.attrs(() => ({
     justify-content: space-between;
     flex-flow: wrap;
     width: 100%;
-    .submitAnswer {
-        position: fixed;
-        bottom: 25px;
-        right: 25px;
-        width: 100px;
-        height: 40px;
-    }
 `;

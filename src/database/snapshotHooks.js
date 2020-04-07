@@ -27,6 +27,7 @@ export const useGameSnapshot = (gameId) => {
                         case 2:
                             data.guesses = {};
                             data.activePlayer = data.players[data.playerTurnIndex];
+                            data.promptAnswers = snapshotListToMap(snapshot.child('prompt_answers'));
                             // there is a list of guesses for each player
                             // create a map of guesses by player ID, with each player having a list of
                             // guesses from other players
