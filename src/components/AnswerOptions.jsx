@@ -18,7 +18,13 @@ export default function AnswerOptions(props) {
                     />
                 );
             })}
-            <Button className='fixedSubmitBtn' onClick={ () => handleSubmit(selectedAnswer) }>Submit Answer</Button>
+            <Button
+                className={ `fixedSubmitBtn ${!selectedAnswer ? 'disabled' : ''}` }
+                onClick={ () => handleSubmit(selectedAnswer) }
+                disabled={ !selectedAnswer }
+            >
+                Submit
+            </Button>
         </StyledOptionsContainer>
     );
 }

@@ -35,7 +35,7 @@ const PendingPlayersContainer = styled.div.attrs(() => ({
         display: flex;
         flex-flow: wrap;
         justify-content: flex-start;
-        padding: 0 50px;
+        padding: 0 15%;
         .Styled-PlayerIcon {
             margin: 15px;
         }

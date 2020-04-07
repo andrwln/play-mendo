@@ -84,7 +84,7 @@ export function keySpaceEnter(event, callback) {
             callback(event);
             break;
     }
-};
+}
 
 export function getMostPopularGuess(guesses) {
     // returns most popular guess as an answer object
@@ -112,7 +112,7 @@ export function getMostPopularGuess(guesses) {
     return guessDataArr.sort((a, b) => {
         return b.count - a.count;
     });
-};
+}
 
 export function getTopGroupGuess(guessBreakdown, answerOptions) {
     const topVoteCount = guessBreakdown[0].count;
@@ -120,11 +120,12 @@ export function getTopGroupGuess(guessBreakdown, answerOptions) {
     const topAnswerList = [topAnswer.label];
     let searching = true;
     let index = 1;
-    let otherTopAnswer = null
+    let otherTopAnswer = null;
     while(searching && index < guessBreakdown.length) {
         if (guessBreakdown[index].count === topVoteCount) {
-            otherTopAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[index].id);
+            otherTopAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[index].answerId);
             topAnswerList.push(otherTopAnswer.label);
+            index++;
         } else {
             searching = false;
         }

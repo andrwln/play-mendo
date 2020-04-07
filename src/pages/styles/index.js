@@ -25,7 +25,16 @@ export const StyledPageContainer = styled.div.attrs(() => ({
         position: fixed;
         bottom: 25px;
         right: 25px;
+        height: 100px;
         width: 100px;
-        height: 40px;
+        border-radius: 50%;
+        font-size: 16px;
+        color: #000000;
+        box-shadow: 1px 1px 5px grey;
+        background-color: #ecbf4b;
+        &.disabled {
+            background-color: #c4c4c4;
+            cursor: default;
+        }
     }
 `;

@@ -7,6 +7,7 @@ import { StyledPageContainer } from '../styles';
 import AnswerOptions from '../../components/AnswerOptions';
 import PendingPlayers from '../../components/PendingPlayers';
 import PlayerIcon from '../../components/PlayerIcon';
+import Button from '../../components/Button';
 
 export default function Guess() {
     const { state } = useStore();
@@ -45,8 +46,9 @@ export default function Guess() {
     const guessingPlayers = players.filter(player => player.id !== focusedPlayer.id);
     const showWaitingDisplay = !allGuessingCompleted && currentPlayerIsFocused;
     const showGuessingDisplay = !showWaitingDisplay && !userCompletedGuessing;
-    const showPendingDisplay = !allGuessingCompleted && userCompletedGuessing;
+    const showPendingDisplay = !allGuessingCompleted && userCompletedGuessing && !currentPlayerIsFocused;
     const showResults = allGuessingCompleted;
+    const showNextButton = showResults && playerData.isHost;
 
     console.log('answers: ', answers);
     return (
@@ -73,6 +75,13 @@ export default function Guess() {
                     topicData={ topicData }
                 />}
             </div>
+            {showNextButton &&
+            <Button
+                className='fixedSubmitBtn'
+                onClick={ handleClickContinue }
+            >
+                Next Player
+            </Button>}
         </GuessPageContainer>
     );
 }
