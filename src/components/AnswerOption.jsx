@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import Checkbox from './Checkbox';
 
 export default function AnswerOption(props) {
-    const { option, name, selectedAnswer, handleSelectOption } = props;
+    const { option, selectedAnswer, handleSelectOption } = props;
     const { label, description, id } = option;
-    const isSelected = selectedAnswer === option.id;
+    const isSelected = selectedAnswer === id;
     function handleChecked() {
-        handleSelectOption(option.id);
+        handleSelectOption(id);
     }
     return (
         <StyledAnswerOption isSelected={ isSelected } onClick={ handleChecked }>
@@ -17,8 +17,8 @@ export default function AnswerOption(props) {
                     style={ {display: 'none'} }
                     type='radio'
                     name='prompt-answer'
-                    id={ `answer-${option.label}` }
-                    value={ option.id }
+                    id={ `answer-${label}` }
+                    value={ id }
                     checked={ isSelected }
                     onChange={ () => {} }
                 />

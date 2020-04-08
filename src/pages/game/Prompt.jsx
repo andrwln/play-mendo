@@ -6,11 +6,12 @@ import { setPlayerPromptAnswer, incrementGameStep } from '../../gameController';
 import { getPendingPlayers } from '../../utils';
 import AnswerOptions from '../../components/AnswerOptions';
 import PendingPlayers from '../../components/PendingPlayers';
+import Button from '../../components/Button';
 
 export default function Prompt() {
     const { state, dispatch } = useStore();
     const { gameData, playerData } = state;
-    const { topicData, promptAnswers, players } = gameData;
+    const { topicData, promptAnswers, players, iconData} = gameData;
     const { answers, topic, description } = topicData;
     const answerSubmitted = !!promptAnswers[playerData.id];
     console.log('state: ', state);
@@ -20,13 +21,14 @@ export default function Prompt() {
         if (pendingPlayers.length === 1) {
             setTimeout(() => {
                 incrementGameStep({ gameData });
-            }, 1000);
+            }, 500);
         }
         // once answer submitted, disable button and set answered state
     }
     // we need to see who else hasn't answered
     // we need to disable button once answer submitted
     const pendingPlayers = getPendingPlayers(promptAnswers, players);
+    const showForceProceed = answerSubmitted && playerData.isHost;
 
     return (
         <PromptPageContainer>
@@ -39,8 +41,15 @@ export default function Prompt() {
                 {!answerSubmitted ?
                     <AnswerOptions answers={ answers } handleSubmit={ handleSubmitAnswer } />
                     :
-                    <PendingPlayers submittedAnswers={ promptAnswers } players={ players } />}
+                    <PendingPlayers submittedAnswers={ promptAnswers } players={ players } iconData={ iconData } />}
             </div>
+            {showForceProceed &&
+            <Button
+                className='fixedSubmitBtn'
+                onClick={ () => incrementGameStep({ gameData }) }
+            >
+                Host force proceed
+            </Button>}
         </PromptPageContainer>
     );
 }

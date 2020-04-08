@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
+import { useCookies } from 'react-cookie';
 import { Actions } from '../../store/actions';
 import { getSessionData } from '../../store/sessionStorageUtils';
 import { useGameSnapshot } from '../../database/snapshotHooks';
@@ -33,17 +34,22 @@ function generateGameComponent(state) {
 
 export default function GameContainer(props) {
     const { state, dispatch } = useStore();
+    const [ cookies, setCookie ] = useCookies(['player']);
+    const { gameData } = state;
+    const players = gameData ? gameData.players : [];
     const { id } = useParams();
     useEffect(() => {
         if (!state.playerData) {
-            // check if player data exists in session storage
-            const playerData = getSessionData('playMendoPlayer');
-            if (playerData) {
+            console.log('cookies: ', cookies);
+            const playerData = cookies.player;
+            const isPlayerInCurrentGame = !state.gameData || players.some(player => player.id === playerData.id);
+            if (playerData && isPlayerInCurrentGame) {
                 // set to store
                 dispatch(Actions.setPlayerData(playerData));
-                // dispatch(Actions.setGameId(id));
             } else {
-                props.history.push('/');
+                if (state.gameData) {
+                    props.history.push('/');
+                }
             }
         }
     },[]);

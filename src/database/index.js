@@ -40,11 +40,17 @@ export const createTopic = async (topicData) => {
 
 export const addPlayerToGame = async (gameId, playerData) => {
     try {
-        const playersRef = await realtimeDB.ref(`games/${gameId}/players`).push();
-        await playersRef.set(playerData);
+        const game = await realtimeDB.ref(`games/${gameId}`).once('value');
+        const gameData = game.val();
+        if (gameData.stepIndex === 0) {
+            const playersRef = await realtimeDB.ref(`games/${gameId}/players`).push();
+            await playersRef.set(playerData);
+        } else {
+            throw 'Game already started';
+        }
     } catch (err) {
         console.error('error adding player to game: ', err);
-
+        throw err;
     }
 };
 

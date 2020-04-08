@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
 import './index.css';
 import Landing from './pages/Landing';
 import HostGame from './pages/HostGame';
@@ -11,14 +12,16 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <React.StrictMode>
-        <StoreProvider>
-            <Router>
-                <Route exact path='/' component={ Landing } />
-                <Route exact path='/host' component={ HostGame } />
-                <Route exact path='/join' component={ JoinGame } />
-                <Route exact path='/game/:id' component={ Game } />
-            </Router>
-        </StoreProvider>
+        <CookiesProvider>
+            <StoreProvider>
+                <Router>
+                    <Route exact path='/' component={ Landing } />
+                    <Route exact path='/host' component={ HostGame } />
+                    <Route exact path='/join' component={ JoinGame } />
+                    <Route exact path='/game/:id' component={ Game } />
+                </Router>
+            </StoreProvider>
+        </CookiesProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Loader from 'react-loader-spinner';
+import { useParams } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
 import { incrementGameStep } from '../../gameController';
 import { StyledPageContainer } from '../styles';
@@ -9,9 +10,12 @@ import PlayerIcon from '../../components/PlayerIcon';
 
 export default function Lobby() {
     const { state } = useStore();
+    const { id: gameId } = useParams();
     const { playerData, gameData } = state;
-    const gameId = gameData.id;
-    const players = gameData.players;
+    const { players, iconData } = gameData;
+    const { characters, colors } = iconData;
+    // const gameId = gameData.id;
+    // const morePlayers = [ ...players, ...players, ...players, ...players, ...players];
 
     function startGame() {
         incrementGameStep({ gameId, gameData });
@@ -26,11 +30,15 @@ export default function Lobby() {
             <div className='mainSection'>
                 <div className='playersContainer'>
                     {players.map((player, playerIdx) => {
+                        const characterIcon = characters[playerIdx];
+                        const characterColor = colors[playerIdx];
                         return (
                             <div key={ `player-icon-${playerIdx}` }>
                                 <PlayerIcon
                                     playerIndex={ playerIdx }
                                     playerName={ player.name }
+                                    icon={ characterIcon }
+                                    color={ characterColor }
                                     showTooltip={ false }
                                     isActive
                                 />
@@ -71,7 +79,7 @@ const LobbyPageContainer = styled(StyledPageContainer)`
         .playersContainer {
             display: flex;
             flex-flow: wrap;
-            justify-content: flex-start;
+            justify-content: center;
             padding: 0 10%;
             .Styled-PlayerIcon {
                 margin: 15px;

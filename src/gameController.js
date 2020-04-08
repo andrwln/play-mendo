@@ -1,8 +1,8 @@
 import { Actions } from './store/actions';
-import { createGame, addPlayerToGame, createTopic, updateGameData, incrementStepIndex, addPlayerPromptAnswer, addPlayerGuessAnswer } from './database';
+import { createGame, addPlayerToGame, incrementStepIndex, addPlayerPromptAnswer, addPlayerGuessAnswer } from './database';
 import { setSessionData } from './store/sessionStorageUtils';
 import { gameDefaults } from './staticData';
-import { generateDataId, generateGameCode } from './utils';
+import { generateDataId, generateGameCode, getRandomizedCharacterData } from './utils';
 
 // functions to manage interaction between the react view layer, the react data store, and the database
 
@@ -16,12 +16,14 @@ export async function initiateNewGame({ playerName, topicId, dispatch }) {
         isHost: true,
         isOnline: true,
     };
+    const iconData = getRandomizedCharacterData();
     // const topicId = await createTopic(topicRawData);
     const gameData = {
         ...gameDefaults,
         id: gameId,
         topicId,
         players: [],
+        iconData,
         prompt_answers: [],
         guesses: [],
         playerTurnIndex: 0,
@@ -31,8 +33,11 @@ export async function initiateNewGame({ playerName, topicId, dispatch }) {
 
     dispatch(Actions.setGameData(gameData));
     dispatch(Actions.setPlayerData(player));
-    setSessionData('playMendoPlayer', player);
-    return gameId;
+    // setSessionData('playMendoPlayer', player);
+    return {
+        gameId,
+        player,
+    };
 }
 
 export async function joinGameAsPlayer({ playerName, gameId, dispatch }) {
@@ -42,9 +47,15 @@ export async function joinGameAsPlayer({ playerName, gameId, dispatch }) {
         isHost: false,
         isOnline: true,
     };
-    await addPlayerToGame(gameId, player);
-    dispatch(Actions.setPlayerData(player));
-    setSessionData('playMendoPlayer', player);
+    try {
+        await addPlayerToGame(gameId, player);
+        dispatch(Actions.setPlayerData(player));
+        return player;
+    } catch(e) {
+        console.log('catching err add player');
+        return false;
+    }
+    // setSessionData('playMendoPlayer', player);
 }
 
 export async function incrementGameStep({gameData}) {

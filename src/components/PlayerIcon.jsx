@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 export default function PlayerIcon(props) {
-    const { isActive, playerIndex, playerName, showTooltip } = props;
+    const { isActive, playerName, showTooltip, icon, color } = props;
     const [ isHovered, setIsHovered ] = useState(false);
     const playerInitial = playerName.substring(0, 1);
     return (
         <StyledIcon
             isActive={ isActive }
+            color={ color }
             onMouseEnter={ () => setIsHovered(true) }
             onMouseLeave={ () => setIsHovered(false) }
         >
             {/* {playerInitial} */}
-            <img src='/img/coffeemug.svg' />
+            <img src={ `/img/${icon}.svg` } />
             {showTooltip &&
-            <TooltipContainer className={ isHovered || !isActive ? 'show' : 'hide' }>
+            <TooltipContainer className={ isHovered || isActive ? 'show' : 'hide' }>
                 {playerName}
                 <TooltipArrow />
             </TooltipContainer>}
@@ -32,10 +33,9 @@ const StyledIcon = styled.div.attrs(() => ({
     height: 80px;
     width: 80px;
     border-radius: 20px;
-    background-color: #4b8bec;
-    color: #000000;
+    color: ${props => props.isActive ? '#000000' : '#ffffff'};
     font-size: 60px;
-    opacity: ${props => props.isActive ? '1' : '0.5'};
+    background-color: ${props => props.isActive ? props.color : '#c4c4c4'};
 `;
 
 const TooltipContainer = styled.div.attrs({
@@ -45,7 +45,7 @@ const TooltipContainer = styled.div.attrs({
     bottom: -42px;
     padding: 8px 16px;
     background-color: #ecbf4b;
-    color: #ffffff;
+    color: #000000;
     border-radius: 5px;
     z-index: 199;
     font-size: 12px;

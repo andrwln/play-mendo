@@ -1,4 +1,5 @@
 import keycode from 'keycode';
+import { characterList, colorList } from './staticData';
 
 const possibleDigits = 'abcdefghijklmnopqrstuvwxyz123456789';
 export function generateUniqueId(length = 6) {
@@ -131,4 +132,21 @@ export function getTopGroupGuess(guessBreakdown, answerOptions) {
         }
     }
     return topAnswerList.join(', ');
+}
+
+function shuffleArray(array) {
+    // returns copy of shuffled array
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+export function getRandomizedCharacterData() {
+    return {
+        characters: shuffleArray(characterList),
+        colors: shuffleArray(colorList),
+    };
 }

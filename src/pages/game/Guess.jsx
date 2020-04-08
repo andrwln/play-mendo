@@ -11,10 +11,8 @@ import Button from '../../components/Button';
 
 export default function Guess() {
     const { state } = useStore();
-    // const [selectedAnswer, setSelectedAnswer] = useState(null);
-    // const [guessingCompleted, setGuessingCompleted] = useState(false);
     const { playerData, gameData } = state;
-    const { playerTurnIndex, players, topicData, guesses, promptAnswers } = gameData;
+    const { playerTurnIndex, players, topicData, guesses, promptAnswers, iconData } = gameData;
     const { topic, answers } = topicData;
     const playerList = players && players.map(player => player.name);
     const focusedPlayer = players[playerTurnIndex];
@@ -26,18 +24,15 @@ export default function Guess() {
     const userCompletedGuessing = guessesMap[playerId] || currentPlayerIsFocused;
     const guessersRemaining = guesses[focusedPlayerId] ? getRemainingGuessers(guesses, players, focusedPlayerId) : [];
     const allGuessingCompleted = guesses[focusedPlayerId] && guessersRemaining.length === 0;
+    const hasNextPlayer = playerTurnIndex < players.length - 1;
     console.log('guessers remaining: ', guessersRemaining);
-    // useEffect(() => {
-    //     // whenever it's a new player's turn reset the form
-    //     setSelectedAnswer(null);
-    // }, [playerTurnIndex]);
 
     function submitGuess(answerId) {
         // send in answer
         setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId, gameData });
     }
     function handleClickContinue() {
-        if (playerTurnIndex < players.length -1) {
+        if (hasNextPlayer) {
             incrementPlayerTurnIndex({ gameData });
         } else {
             incrementGameStep({ gameData });
@@ -45,10 +40,10 @@ export default function Guess() {
     }
     const guessingPlayers = players.filter(player => player.id !== focusedPlayer.id);
     const showWaitingDisplay = !allGuessingCompleted && currentPlayerIsFocused;
-    const showGuessingDisplay = !showWaitingDisplay && !userCompletedGuessing;
-    const showPendingDisplay = !allGuessingCompleted && userCompletedGuessing && !currentPlayerIsFocused;
+    const showGuessingDisplay = !showWaitingDisplay && !userCompletedGuessing && !allGuessingCompleted;
+    const showPendingDisplay = !allGuessingCompleted && userCompletedGuessing;
     const showResults = allGuessingCompleted;
-    const showNextButton = showResults && playerData.isHost;
+    const showNextButton = playerData.isHost && (showResults || showWaitingDisplay ||showPendingDisplay) ;
 
     console.log('answers: ', answers);
     return (
@@ -65,7 +60,7 @@ export default function Guess() {
                     answers={ answers }
                     submitGuess={ submitGuess }
                 />}
-                {showPendingDisplay && <PendingPlayers submittedAnswers={ guessesMap } players={ guessingPlayers } />}
+                {showPendingDisplay && <PendingPlayers submittedAnswers={ guessesMap } players={ guessingPlayers } iconData={ iconData } />}
                 {showResults &&
                 <ResultsDisplay
                     focusedPlayer={ focusedPlayer }
@@ -73,6 +68,7 @@ export default function Guess() {
                     guesses={ guessesMap }
                     players={ players }
                     topicData={ topicData }
+                    iconData={ iconData }
                 />}
             </div>
             {showNextButton &&
@@ -80,7 +76,7 @@ export default function Guess() {
                 className='fixedSubmitBtn'
                 onClick={ handleClickContinue }
             >
-                Next Player
+                {hasNextPlayer ? 'Next Player' : 'See Results'}
             </Button>}
         </GuessPageContainer>
     );
@@ -104,13 +100,14 @@ function GuessingDisplay({ focusedPlayer, submitGuess, answers}) {
     );
 }
 
-function ResultsDisplay({ focusedPlayer, promptAnswers, guesses, players, topicData }) {
+function ResultsDisplay({ focusedPlayer, promptAnswers, guesses, players, topicData, iconData }) {
     const answerOptions = topicData.answers;
     const focusedPlayerAnswerId = promptAnswers[focusedPlayer.id];
     const focusedPlayerAnswer = getItemByIdFromArr(answerOptions, focusedPlayerAnswerId);
     const guessBreakdown = getMostPopularGuess(guesses);
     console.log('guess breakdown: ', guessBreakdown);
     const topGroupAnswer = getTopGroupGuess(guessBreakdown, answerOptions);
+    const { characters, colors } = iconData;
     console.log('most populer guesses: ', topGroupAnswer);
     return (
         <>
@@ -119,14 +116,21 @@ function ResultsDisplay({ focusedPlayer, promptAnswers, guesses, players, topicD
             <div>
                 {guessBreakdown.map((guess, idx) => {
                     const answerLabel = getItemByIdFromArr(answerOptions, guess.answerId).label;
-
+                    const characterIcon = characters[idx];
+                    const characterColor = colors[idx];
                     return (
                         <div key={ `guess-breakdown-${idx}` }>
                             <span>{answerLabel}</span>
                             <div>
                                 {guess.playerIds.map((id, index) => {
                                     const playerName = getItemByIdFromArr(players, id).name;
-                                    return <PlayerIcon key={ `player-icon-${index}` } isActive playerName={ playerName } />;
+                                    return (
+                                        <PlayerIcon
+                                            key={ `player-icon-${index}` }
+                                            isActive playerName={ playerName }
+                                            icon={ characterIcon }
+                                            color={ characterColor }
+                                        />);
                                 })}
                             </div>
                         </div>
