@@ -15,13 +15,6 @@ export default function ResultsBreakdownItem(props) {
     return (
         <StyledBreakdownItem>
             {isCorrectAnswer ?
-                // <PlayerIcon
-                //     isActive
-                //     icon={ character }
-                //     color={ color }
-                //     showTooltip
-                //     playerName={ focusedPlayer.name }
-                // /> :
                 <PlayerIcon
                     isActive
                     showTooltip
@@ -39,16 +32,7 @@ export default function ResultsBreakdownItem(props) {
             <div className='guessesContainer'>
                 {guessData.playerIds.map((playerId, idx) => {
                     const playerData = getItemByIdFromArr(players, playerId);
-                    const { character, color } = getPlayerIconData(playerId, players, iconData);
                     return (
-                        // <PlayerIcon
-                        //     key={ `guess-icon-${idx}` }
-                        //     // isActive
-                        //     icon={ character }
-                        //     color={ color }
-                        //     playerName={ playerData.name }
-                        //     showTooltip
-                        // />
                         <PlayerIcon
                             key={ `guess-icon-${idx}` }
                             player={ playerData }
