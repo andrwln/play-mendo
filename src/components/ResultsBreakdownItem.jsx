@@ -1,25 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import PlayerIcon from './PlayerIcon';
-import { getPlayerIconData, getItemByIdFromArr } from '../utils';
+import { getItemByIdFromArr } from '../utils';
 import { StyledCheckbox } from './Checkbox';
 
 export default function ResultsBreakdownItem(props) {
-    const { isCorrectAnswer, focusedPlayer, guessData, players, iconData, answers } = props;
-    const { character, color } = getPlayerIconData(focusedPlayer.id, players, iconData);
+    const { isCorrectAnswer, focusedPlayer, guessData, players, answers } = props;
     const currentAnswer = getItemByIdFromArr(answers, guessData.id);
     const checkBoxImg = isCorrectAnswer ? '/img/checkmark.svg' : '/img/crossmark.svg';
-    console.log('breakdown item props: ', props);
-    // guessData.playerIds = [...guessData.playerIds, ...guessData.playerIds, ...guessData.playerIds, ...guessData.playerIds, ...guessData.playerIds, ...guessData.playerIds, ...guessData.playerIds];
-    // const focusedPlayerId = correctAnswer && correctAnswer.
     return (
         <StyledBreakdownItem>
             {isCorrectAnswer ?
                 <PlayerIcon
                     isActive
                     player={ focusedPlayer }
-                    iconData={ iconData }
-                    players={ players }
                 /> :
                 <div className='iconPlaceholder' />}
             <div className='answerContainer'>
@@ -35,8 +29,6 @@ export default function ResultsBreakdownItem(props) {
                         <PlayerIcon
                             key={ `guess-icon-${idx}` }
                             player={ playerData }
-                            iconData={ iconData }
-                            players={ players }
                             showTooltip
                         />
                     );
@@ -62,6 +54,11 @@ const StyledBreakdownItem = styled.div`
     }
     .playerName {
         margin-top: 3px;
+        width: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
     }
     .iconPlaceholder {
         width: 60px;

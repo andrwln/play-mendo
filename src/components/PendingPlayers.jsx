@@ -16,8 +16,6 @@ export default function PendingPlayers(props) {
                             key={ `player-icon-${playerIdx}` }
                             isActive={ !submittedAnswers[player.id] }
                             player={ player }
-                            iconData={ iconData }
-                            players={ players }
                             showTooltip={ submittedAnswers[player.id] }
                         />
                     );
@@ -49,6 +47,10 @@ const PendingPlayersContainer = styled.div.attrs(() => ({
             }
             .playerName {
                 margin-top: 8px;
+                width: 80px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
     }

@@ -14,7 +14,6 @@ export default function Prompt() {
     const { topicData, promptAnswers, players, iconData} = gameData;
     const { answers, topic, description } = topicData;
     const answerSubmitted = !!promptAnswers[playerData.id];
-    console.log('state: ', state);
     async function handleSubmitAnswer(answerId) {
         // update game data with Player's answer
         await setPlayerPromptAnswer({ playerId: playerData.id, answerId, gameData });
@@ -66,7 +65,7 @@ const PromptPageContainer = styled(StyledPageContainer)`
             }
         }
         .topicTitle {
-            font-size: 48px;
+            font-size: 36px;
             font-weight: bold;
             padding: 10px 50px;
         }

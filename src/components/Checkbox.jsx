@@ -39,6 +39,6 @@ export const StyledCheckbox = styled.div.attrs(() => ({
     img {
         position: relative;
         left: 2px;
-        bottom: 2px;
+        bottom: -5px;
     }
 `;

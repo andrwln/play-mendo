@@ -15,9 +15,11 @@ export default function HostGame(props) {
     const [playerName, setName] = useState('');
     const [topics, setTopics] = useState([]);
     const [selectedTopic, setSelectedTopic] = useState('');
-    const buttonDisabled = playerName.length === 0;
+    const [hasStartedGame, setHasStartedGame] = useState(false);
+    const buttonDisabled = playerName.length === 0 || hasStartedGame;
     async function startNewGame() {
         // start new game and redirect user to game game lobby page
+        setHasStartedGame(true);
         const { gameId, player } = await initiateNewGame({ playerName, topicId: selectedTopic, dispatch });
         console.log('setting cookie for host: ', player);
         Cookies.set('player', player);
@@ -33,7 +35,6 @@ export default function HostGame(props) {
             const topicsSnapshot = await getAllTopics();
             const topicsArray = snapshotListToArray(topicsSnapshot);
             const topicsAsSelectOptions = generateTopicSelectOptions(topicsArray);
-            console.log('topics: ', topicsArray);
             setTopics(topicsAsSelectOptions);
         }
         getTopicsList();

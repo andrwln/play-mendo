@@ -50,7 +50,7 @@ const StyledAnswerOption = styled.div.attrs(() => ({
         align-items: center;
         padding-bottom: 15px;
         font-weight: bold;
-        font-size: 32px;
+        font-size: 24px;
         > label {
             cursor: pointer;
             margin-left: 30px;

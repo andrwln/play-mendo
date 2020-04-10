@@ -1,34 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useStore } from '../../store/useStore';
-import { incrementPlayerTurnIndex, incrementGameStep, setPlayerGuessAnswer } from '../../gameController';
-import { generateResultsPageData, getRemainingGuessers, getGuessesByPopularity, getItemByIdFromArr, getResultsMessage, getTopGroupGuess } from '../../utils';
+import { generateResultsPageData } from '../../utils';
 import { StyledPageContainer } from '../styles';
-import AnswerOptions from '../../components/AnswerOptions';
 import PlayerIcon from '../../components/PlayerIcon';
-import { StyledCheckbox } from '../../components/Checkbox';
+import Button from '../../components/Button';
 
 export default function Results() {
     const { state } = useStore();
     const { playerData, gameData } = state;
-    const { playerTurnIndex, players, topicData, guesses, promptAnswers, iconData } = gameData;
+    const { playerTurnIndex, players, topicData, guesses, promptAnswers } = gameData;
     const { topic, answers } = topicData;
-    const playerList = players && players.map(player => player.name);
-    const focusedPlayer = players[playerTurnIndex];
-    const playerId = playerData.id;
-    const focusedPlayerId = focusedPlayer.id;
     const resultsData = generateResultsPageData(promptAnswers, answers, players, guesses);
-    console.log('results Data: ', resultsData);
-    console.log('players: ', players);
+    function handlePlayAgain() {
+        window.location.assign('/');
+    }
     return (
         <StyledResultsPage>
             <div className='headerSection'>
                 <div className='logoContainer'><img src='/img/logo.svg' /></div>
-                <div className='topicTitle'>{topic}</div>
+                <div className='topicTitle'>Game Summary</div>
             </div>
             <div className='mainSection'>
-                <div className='subHeader'>Game Summary</div>
                 <div className='summaryMatrix'>
+                    <div className='matrixHeaders'>
+                        <div className='targets'>Targets</div>
+                        <div className='guesses' style={ { width: `${70 * players.length}px`} }>Guessers</div>
+                    </div>
                     <div className='playerIconRow'>
                         <div className='iconPlaceholder' />
                         {players.map((player, playerIdx) => {
@@ -36,8 +34,6 @@ export default function Results() {
                                 <PlayerIcon
                                     key={ `results-icon-${playerIdx}` }
                                     player={ player }
-                                    iconData={ iconData }
-                                    players={ players }
                                     isActive
                                 />
                             );
@@ -51,30 +47,34 @@ export default function Results() {
                                 <div key={ `player-results-row-${resultIdx}` } className='playerResultsRow'>
                                     <PlayerIcon
                                         player={ player }
-                                        iconData={ iconData }
-                                        players={ players }
                                         isActive
                                     />
-                                    <div className='answerLabel'>
-                                        {/* <StyledCheckbox style={ { cursor: 'default' } }>
-                                            <img src="/img/greencheck.svg" />
-                                        </StyledCheckbox> */}
-                                        <label>{answer.label}</label>
+                                    <div className='answerContainer'>
+                                        <div className='answerLabel'>
+                                            <label>{answer.label}</label>
+                                        </div>
                                     </div>
-                                    {players.map((guessingPlayer, guessIdx) => {
-                                        const isCorrect = correctPlayers.indexOf(guessingPlayer.id) > -1;
-                                        const isSameCurrentPlayer = guessingPlayer.id === player.id;
-                                        return (
-                                            <div className='guessResultContainer' key={ `guess-result-${guessIdx}` }>
-                                                {!isSameCurrentPlayer ? <img src={ isCorrect ? '/img/greencheck.svg' : '/img/redcross.svg' } /> : 'N/A'}
-                                            </div>
-                                        );
-                                    })}
+                                    <div className='guessesContainer'>
+                                        {players.map((guessingPlayer, guessIdx) => {
+                                            const isCorrect = correctPlayers.indexOf(guessingPlayer.id) > -1;
+                                            const isSameCurrentPlayer = guessingPlayer.id === player.id;
+                                            const resultImg = isCorrect ? '/img/greencheck.svg' : '/img/redcross.svg';
+                                            const samePlayerImg = '/img/orangestar.svg';
+                                            return (
+                                                <div className='guessResultContainer' key={ `guess-result-${guessIdx}` }>
+                                                    <img src={ isSameCurrentPlayer ? samePlayerImg : resultImg } />
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             );
                         })}
                     </div>
                 </div>
+            </div>
+            <div className='footerSection'>
+                <Button onClick={ handlePlayAgain }>Play Again!</Button>
             </div>
         </StyledResultsPage>
     );
@@ -93,15 +93,25 @@ const StyledResultsPage = styled(StyledPageContainer)`
             }
         }
         .topicTitle {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: bold;
             padding: 10px 50px;
         }
     }
     .mainSection {
         .subHeader {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             font-weight: bold;
+        }
+        .matrixHeaders {
+            display: flex;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            .targets {
+                width: 370px;
+            }
         }
         .summaryMatrix {
             display: flex;
@@ -112,23 +122,29 @@ const StyledResultsPage = styled(StyledPageContainer)`
             display: flex;
             padding-bottom: 15px;
             .iconPlaceholder {
-                width: 300px;
+                width: 400px;
             }
         }
         .playerResultsRow {
             display: flex;
             height: 100px;
+            .guessesContainer {
+                display: flex;
+            }
             .guessResultContainer {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 height: 60px;
                 width: 60px;
-                margin-right: 10px;
+                margin: 0 10px 0 20px;
                 img {
                     height: 50%;
                 }
             }
+        }
+        .answerContainer {
+            padding-right: 20px;
         }
         .answerLabel {
             display: flex;
@@ -136,13 +152,12 @@ const StyledResultsPage = styled(StyledPageContainer)`
             justify-content: center;
             box-sizing: border-box;
             height: 60px;
-            width: 200px;
+            width: 300px;
             border: 1px solid #000000;
             border-radius: 4px;
             background-color: #e5e5e5;
             padding: 10px 15px;
             font-weight: bold;
-            margin-right: 30px;
             .Styled-Checkbox {
                 margin-right: 20px;
                 height: 27px;
@@ -155,6 +170,7 @@ const StyledResultsPage = styled(StyledPageContainer)`
         }
     }
     .playerIconContainer {
+        margin: 0 10px;
         .playerName {
             margin-top: 3px;
             overflow: hidden;
@@ -164,7 +180,6 @@ const StyledResultsPage = styled(StyledPageContainer)`
             font-size: 12px;
         }
         .Styled-PlayerIcon {
-            margin-right: 10px;
             height: 60px;
             width: 60px;
             border-radius: 12.5px;
@@ -181,6 +196,13 @@ const StyledResultsPage = styled(StyledPageContainer)`
                 height: 75%;
                 width: 75%;
             }
+        }
+    }
+    .footerSection {
+        margin-top: 40px;
+        button {
+            height: 50px;
+            width: 240px;
         }
     }
 `;

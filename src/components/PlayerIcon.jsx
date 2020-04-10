@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useStore } from '../store/useStore';
 import styled, { css } from 'styled-components';
 import { getPlayerIconData } from '../utils';
 
 export default function PlayerIcon(props) {
-    // const { isActive, playerName, showTooltip, icon, color } = props;
-    const { isActive, player, showTooltip, iconData, players } = props;
+    const { state } = useStore();
+    const { gameData } = state;
+    const { players, iconData } = gameData;
+    const { isActive, player, showTooltip } = props;
     const { character, color } = getPlayerIconData(player.id, players, iconData);
     const [ isHovered, setIsHovered ] = useState(false);
     return (

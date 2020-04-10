@@ -55,8 +55,9 @@ export function getPendingPlayers(answers, players) {
     const pending = [];
 
     players.forEach(player => {
-        if (!answers[player.id]) {
-            pending.push(player.name);
+        if (Object.keys(answers).indexOf(player.id) === -1) {
+        // if (!answers[player.id]) {
+            pending.push(player);
         }
     });
     return pending;
@@ -91,7 +92,7 @@ export function getGuessesByPopularity(guesses) {
     const guessesMap = {};
     Object.keys(guesses).forEach(playerId => {
         const guessAnswerId = guesses[playerId];
-        if (playerId === 'count') return;
+        if (playerId === 'count' || guesses[playerId] === '') return;
         if (guessesMap[guessAnswerId]) {
             guessesMap[guessAnswerId].push(playerId);
         } else {

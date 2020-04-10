@@ -57,7 +57,6 @@ export const addPlayerToGame = async (gameId, playerData) => {
 export const incrementStepIndex = async (gameId, field) => {
     const stepRef = realtimeDB.ref(`games/${gameId}/${field}`);
     await stepRef.transaction(currentIdx => {
-        console.log('incrementing current index by one from : ', currentIdx);
         return currentIdx + 1;
     });
 };

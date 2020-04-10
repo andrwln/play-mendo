@@ -8,7 +8,6 @@ export default function CreateTopic() {
     const { state, dispatch } = useStore();
     const topicData = state.topicData;
     const { answers, topic } = topicData;
-    console.log('current Topic data: ', topicData);
     function addAnswerField() {
         const newAnswers = [...answers];
         newAnswers.push(generateAnswerObject());
@@ -18,7 +17,6 @@ export default function CreateTopic() {
         }));
     }
     function handleSubmitTopic() {
-        console.log('saving topic with data: ', topicData);
         createTopic(topicData);
 
     }
@@ -27,7 +25,6 @@ export default function CreateTopic() {
         const newAnswer = { ...answer, [field]: value };
         const newAnswers = [ ...answers ];
         newAnswers[answerIndex] = newAnswer;
-        console.log('new answers: ', newAnswers);
         dispatch(Actions.setTopicData({
             ...topicData,
             answers: newAnswers,

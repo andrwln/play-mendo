@@ -13,14 +13,12 @@ export default function Lobby() {
     const { id: gameId } = useParams();
     const { playerData, gameData } = state;
     const { players, iconData } = gameData;
-    const { characters, colors } = iconData;
     // const gameId = gameData.id;
     // const morePlayers = [ ...players, ...players, ...players, ...players, ...players];
 
     function startGame() {
         incrementGameStep({ gameId, gameData });
     }
-
     // const extraPlayers = [...players, ...players, ...players, ...players, ...players, ...players]
     return (
         <LobbyPageContainer>
@@ -34,8 +32,6 @@ export default function Lobby() {
                             <div key={ `player-icon-${playerIdx}` }>
                                 <PlayerIcon
                                     player={ player }
-                                    iconData={ iconData }
-                                    players={ players }
                                     isActive
                                 />
                             </div>
@@ -49,7 +45,7 @@ export default function Lobby() {
                 </div>
                 {playerData.isHost ?
                     <div className='btnContainer'>
-                        <Button className='startGame' onClick={ startGame }>Everybody's in! Let's Start!</Button>
+                        <Button disabled={ players.length === 1 } className='startGame' onClick={ startGame }>Everybody's in! Let's Start!</Button>
                     </div> :
                     <div>
                         <div className='nonHostText'>Waiting for all players to join...</div>
@@ -80,6 +76,13 @@ const LobbyPageContainer = styled(StyledPageContainer)`
                 margin: 15px;
                 width: 120px;
                 height: 120px;
+            }
+            .playerName {
+                width: 130px;
+                padding: 0 10px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
     }

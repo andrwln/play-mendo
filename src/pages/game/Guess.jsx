@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useStore } from '../../store/useStore';
@@ -6,7 +7,6 @@ import { getRemainingGuessers, getGuessesByPopularity, getItemByIdFromArr, getRe
 import { StyledPageContainer } from '../styles';
 import AnswerOptions from '../../components/AnswerOptions';
 import PendingPlayers from '../../components/PendingPlayers';
-import PlayerIcon from '../../components/PlayerIcon';
 import ResultsBreakdownItem from '../../components/ResultsBreakdownItem';
 import Button from '../../components/Button';
 
@@ -26,7 +26,6 @@ export default function Guess() {
     const guessersRemaining = guesses[focusedPlayerId] ? getRemainingGuessers(guesses, players, focusedPlayerId) : [];
     const allGuessingCompleted = guesses[focusedPlayerId] && guessersRemaining.length === 0;
     const hasNextPlayer = playerTurnIndex < players.length - 1;
-    console.log('guessers remaining: ', guessersRemaining);
 
     function submitGuess(answerId) {
         // send in answer
@@ -39,14 +38,21 @@ export default function Guess() {
             incrementGameStep({ gameData });
         }
     }
+    function forceEndRoundAndShowResults() {
+        guessersRemaining.forEach(guesser => {
+            const playerId = guesser.id;
+            const answerId = '';
+            setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId, gameData});
+        });
+    }
     const guessingPlayers = players.filter(player => player.id !== focusedPlayer.id);
     const showWaitingDisplay = !allGuessingCompleted && currentPlayerIsFocused;
     const showGuessingDisplay = !showWaitingDisplay && !userCompletedGuessing && !allGuessingCompleted;
     const showPendingDisplay = !allGuessingCompleted && userCompletedGuessing;
     const showResults = allGuessingCompleted;
-    const showNextButton = playerData.isHost && (showResults || showWaitingDisplay ||showPendingDisplay) ;
+    const showEndRoundButton = playerData.isHost && !allGuessingCompleted && (showWaitingDisplay || showPendingDisplay);
+    const showNextButton = playerData.isHost && showResults ;
 
-    console.log('answers: ', answers);
     return (
         <GuessPageContainer>
             <div className='headerSection'>
@@ -72,6 +78,13 @@ export default function Guess() {
                     iconData={ iconData }
                 />}
             </div>
+            {showEndRoundButton &&
+                <Button
+                    className='fixedSubmitBtn'
+                    onClick={ forceEndRoundAndShowResults }
+                >
+                    End Voting
+                </Button>}
             {showNextButton &&
             <Button
                 className='fixedSubmitBtn'
@@ -111,8 +124,6 @@ function ResultsDisplay({ focusedPlayer, promptAnswers, guesses, players, topicD
     const focusedPlayerInGuesses = getItemByIdFromArr(guessBreakdown, focusedPlayerAnswerId);
     const resultsMessage = getResultsMessage(focusedPlayerInGuesses, topGroupAnswer, focusedPlayer);
 
-    console.log('guess breakdown: ', guessBreakdown);
-    console.log('most populer guesses: ', topGroupAnswer);
     // check if focusedplayer answer exists in the guess breakdown
     // if it does, display as ordered in array and show focused player icon to left of answer
     // if it does not, above the guess breakdowns, show focused player's answer
@@ -163,7 +174,7 @@ const GuessPageContainer = styled(StyledPageContainer)`
             }
         }
         .topicTitle {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: bold;
             padding: 10px 50px;
         }
@@ -183,8 +194,8 @@ const GuessPageContainer = styled(StyledPageContainer)`
             margin-bottom: 20px;
         }
         .waitingMessage {
-            margin-bottom: 20px;
-            font-size: 26px;
+            margin-bottom: 40px;
+            font-size: 24px;
             line-height: 45px;
         }
         .resultsMessage {
