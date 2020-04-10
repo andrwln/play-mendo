@@ -22,8 +22,8 @@ export default function Lobby(props) {
                     <Button className='host' onClick={ () => redirectTo('host') }>Host new game</Button>
                     <Button className='join' onClick={ () => redirectTo('join') }>Join existing game</Button>
                 </div>
-            {/* <CreateTopic /> */}
             </div>
+            <CreateTopic />
             <div className='footerSection'>created by JDAK</div>
         </LandingPageContainer>
     );
