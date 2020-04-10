@@ -123,7 +123,6 @@ function ResultsDisplay({ focusedPlayer, promptAnswers, guesses, players, topicD
     const { characters, colors } = iconData;
     const focusedPlayerInGuesses = getItemByIdFromArr(guessBreakdown, focusedPlayerAnswerId);
     const resultsMessage = getResultsMessage(focusedPlayerInGuesses, topGroupAnswer, focusedPlayer);
-
     // check if focusedplayer answer exists in the guess breakdown
     // if it does, display as ordered in array and show focused player icon to left of answer
     // if it does not, above the guess breakdowns, show focused player's answer
@@ -133,7 +132,7 @@ function ResultsDisplay({ focusedPlayer, promptAnswers, guesses, players, topicD
                 {resultsMessage}
             </div>
             <div className='resultsBreakdown'>
-                {!focusedPlayerInGuesses &&
+                {!focusedPlayerInGuesses && focusedPlayerAnswerId &&
                 <ResultsBreakdownItem
                     focusedPlayer={ focusedPlayer }
                     guessData={ { id: focusedPlayerAnswerId, playerIds: [] } }

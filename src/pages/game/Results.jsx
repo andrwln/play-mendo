@@ -24,8 +24,8 @@ export default function Results() {
             <div className='mainSection'>
                 <div className='summaryMatrix'>
                     <div className='matrixHeaders'>
-                        <div className='targets'>Targets</div>
-                        <div className='guesses' style={ { width: `${70 * players.length}px`} }>Guessers</div>
+                        <div className='targets'>Correct Answers</div>
+                        <div className='guesses' style={ { width: `${70 * players.length}px`} }>Player Picks</div>
                     </div>
                     <div className='playerIconRow'>
                         <div className='iconPlaceholder' />
@@ -110,7 +110,7 @@ const StyledResultsPage = styled(StyledPageContainer)`
             font-weight: bold;
             margin-bottom: 15px;
             .targets {
-                width: 370px;
+                width: 410px;
             }
         }
         .summaryMatrix {
@@ -122,7 +122,7 @@ const StyledResultsPage = styled(StyledPageContainer)`
             display: flex;
             padding-bottom: 15px;
             .iconPlaceholder {
-                width: 400px;
+                width: 410px;
             }
         }
         .playerResultsRow {
@@ -137,14 +137,14 @@ const StyledResultsPage = styled(StyledPageContainer)`
                 justify-content: center;
                 height: 60px;
                 width: 60px;
-                margin: 0 10px 0 20px;
+                margin: 0 10px;
                 img {
                     height: 50%;
                 }
             }
         }
         .answerContainer {
-            padding-right: 20px;
+            padding-right: 30px;
         }
         .answerLabel {
             display: flex;

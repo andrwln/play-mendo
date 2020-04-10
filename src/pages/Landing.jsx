@@ -23,7 +23,6 @@ export default function Lobby(props) {
                     <Button className='join' onClick={ () => redirectTo('join') }>Join existing game</Button>
                 </div>
             </div>
-            <CreateTopic />
             <div className='footerSection'>created by JDDAK</div>
         </LandingPageContainer>
     );

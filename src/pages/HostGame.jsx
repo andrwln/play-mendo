@@ -99,6 +99,8 @@ const selectStyles = {
     menu: provided => ({
         ...provided,
         margin: 0,
+        fontSize: 16,
+        textAlign: 'left',
 
     }),
     ValueContainer: provided => ({

@@ -29,7 +29,7 @@ export default function ResultsBreakdownItem(props) {
                         <PlayerIcon
                             key={ `guess-icon-${idx}` }
                             player={ playerData }
-                            showTooltip
+                            isActive
                         />
                     );
                 })}

@@ -118,14 +118,14 @@ export function getGuessesByPopularity(guesses) {
 export function getTopGroupGuess(guessBreakdown, answerOptions) {
     const topVoteCount = guessBreakdown[0].count;
     const topAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[0].id);
-    const topAnswerList = [topAnswer.label];
+    const topAnswerList = [topAnswer];
     let searching = true;
     let index = 1;
     let otherTopAnswer = null;
     while(searching && index < guessBreakdown.length) {
         if (guessBreakdown[index].count === topVoteCount) {
             otherTopAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[index].id);
-            topAnswerList.push(otherTopAnswer.label);
+            topAnswerList.push(otherTopAnswer);
             index++;
         } else {
             searching = false;
@@ -168,20 +168,39 @@ export function getRandomizedCharacterData() {
 export function getPlayerIconData(playerId, players, iconData) {
     const playerIndex = players.findIndex(player => player.id === playerId);
     const { characters, colors } = iconData;
-    let character; let color;
-    if (playerIndex < characters.length) {
-        character = characters[playerIndex];
-    } else {
-        const adjustedIdx = playerIndex - characters.length;
-        character = characters[adjustedIdx];
+    // let character; let color;
+
+    function getOption(startingIdx, options) {
+        // if(startingIdx === 7) debugger;
+        // if (startingIdx < options.length) {
+        //     return options[startingIdx];
+        // } else {
+        //     debugger;
+        //     const adjustedIdx = startingIdx - options.length;
+        //     getOption(adjustedIdx, options);
+        // }
+        let adjustedIndex = startingIdx;
+        while (adjustedIndex > options.length - 1) {
+            adjustedIndex = adjustedIndex - options.length;
+        }
+        return options[adjustedIndex];
     }
 
-    if (playerIndex < colors.length) {
-        color = colors[playerIndex];
-    } else {
-        const adjustedIdx = playerIndex - colors.length;
-        color = colors[adjustedIdx];
-    }
+    const character = getOption(playerIndex, characters);
+    const color = getOption(playerIndex, colors);
+    // if (playerIndex < characters.length) {
+    //     character = characters[playerIndex];
+    // } else {
+    //     const adjustedIdx = playerIndex - characters.length;
+    //     character = characters[adjustedIdx];
+    // }
+
+    // if (playerIndex < colors.length) {
+    //     color = colors[playerIndex];
+    // } else {
+    //     const adjustedIdx = playerIndex - colors.length;
+    //     color = colors[adjustedIdx];
+    // }
     return {
         character,
         color,
