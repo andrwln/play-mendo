@@ -113,10 +113,10 @@ function ResultsDisplay({ focusedPlayer, promptAnswers, guesses, players, topicD
 
     console.log('guess breakdown: ', guessBreakdown);
     console.log('most populer guesses: ', topGroupAnswer);
+    // check if focusedplayer answer exists in the guess breakdown
+    // if it does, display as ordered in array and show focused player icon to left of answer
+    // if it does not, above the guess breakdowns, show focused player's answer
     return (
-        // check if focusedplayer answer exists in the guess breakdown
-        // if it does, display as ordered in array and show focused player icon to left of answer
-        // if it does not, above the guess breakdowns, show focused player's answer
         <GuessBreakdownResults>
             <div className='resultsMessage'>
                 {resultsMessage}

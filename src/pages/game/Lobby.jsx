@@ -34,14 +34,6 @@ export default function Lobby() {
                         const characterColor = colors[playerIdx];
                         return (
                             <div key={ `player-icon-${playerIdx}` }>
-                                {/* <PlayerIcon
-                                    playerIndex={ playerIdx }
-                                    playerName={ player.name }
-                                    icon={ characterIcon }
-                                    color={ characterColor }
-                                    showTooltip={ false }
-                                    isActive
-                                /> */}
                                 <PlayerIcon
                                     player={ player }
                                     iconData={ iconData }
