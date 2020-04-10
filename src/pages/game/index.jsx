@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
-import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 import { Actions } from '../../store/actions';
-import { getSessionData } from '../../store/sessionStorageUtils';
 import { useGameSnapshot } from '../../database/snapshotHooks';
 import Lobby from './Lobby';
 import Prompt from './Prompt';
@@ -34,14 +33,13 @@ function generateGameComponent(state) {
 
 export default function GameContainer(props) {
     const { state, dispatch } = useStore();
-    const [ cookies, setCookie ] = useCookies(['player']);
     const { gameData } = state;
     const players = gameData ? gameData.players : [];
     const { id } = useParams();
     useEffect(() => {
         if (!state.playerData) {
-            console.log('cookies: ', cookies);
-            const playerData = cookies.player;
+            const playerData = JSON.parse(Cookies.get('player'));
+            console.log('playerdata from cooies: ', playerData);
             const isPlayerInCurrentGame = !state.gameData || players.some(player => player.id === playerData.id);
             if (playerData && isPlayerInCurrentGame) {
                 // set to store

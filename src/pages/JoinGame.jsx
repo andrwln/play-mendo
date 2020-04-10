@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useStore } from '../store/useStore';
-import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 import { joinGameAsPlayer } from '../gameController';
 import { StyledPageContainer } from './styles';
 import Input from '../components/Input';
@@ -12,14 +12,13 @@ export default function HostGame(props) {
     const [playerName, setName] = useState('');
     const [gameId, setGameId] = useState('');
     const [joinErr, setJoinErr] = useState(false);
-    const [cookies, setCookie] = useCookies(['player']);
     async function joinRoom() {
         const sanitizedId = gameId.toLowerCase();
 
         const player = await joinGameAsPlayer({ playerName, gameId: sanitizedId, dispatch});
 
         if (player) {
-            setCookie('player', player);
+            Cookies.set('player', player);
             props.history.push(`/game/${gameId}`);
         } else {
             //show error state

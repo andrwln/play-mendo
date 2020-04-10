@@ -87,8 +87,7 @@ export function keySpaceEnter(event, callback) {
     }
 }
 
-export function getMostPopularGuess(guesses) {
-    // returns most popular guess as an answer object
+export function getGuessesByPopularity(guesses) {
     const guessesMap = {};
     Object.keys(guesses).forEach(playerId => {
         const guessAnswerId = guesses[playerId];
@@ -105,7 +104,7 @@ export function getMostPopularGuess(guesses) {
         const guessObj = {};
         guessObj.count = playerList.length;
         guessObj.playerIds = playerList;
-        guessObj.answerId = answerId;
+        guessObj.id = answerId;
         return guessObj;
     });
 
@@ -117,21 +116,35 @@ export function getMostPopularGuess(guesses) {
 
 export function getTopGroupGuess(guessBreakdown, answerOptions) {
     const topVoteCount = guessBreakdown[0].count;
-    const topAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[0].answerId);
+    const topAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[0].id);
     const topAnswerList = [topAnswer.label];
     let searching = true;
     let index = 1;
     let otherTopAnswer = null;
     while(searching && index < guessBreakdown.length) {
         if (guessBreakdown[index].count === topVoteCount) {
-            otherTopAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[index].answerId);
+            otherTopAnswer = getItemByIdFromArr(answerOptions, guessBreakdown[index].id);
             topAnswerList.push(otherTopAnswer.label);
             index++;
         } else {
             searching = false;
         }
     }
-    return topAnswerList.join(', ');
+    return topAnswerList;
+}
+
+export function getResultsMessage(focusedPlayerInGuesses, topGroupAnswer, focusedPlayer) {
+    const numberOfTopAnswers = topGroupAnswer.length;
+    const hasMultipleTopGuesses = numberOfTopAnswers > 1;
+    let message = '';
+    if (focusedPlayerInGuesses) {
+        message = hasMultipleTopGuesses ?
+            `I guess some of you guys kinda know ${focusedPlayer.name} ...?` :
+            `${focusedPlayer.name} has some good friends or is just plain easy to read. Either way, nailed it!`;
+    } else {
+        message = `Wow, well that's disappointing... Y'all don't seem to know ${focusedPlayer.name} at all!`;
+    }
+    return message;
 }
 
 function shuffleArray(array) {
@@ -149,4 +162,54 @@ export function getRandomizedCharacterData() {
         characters: shuffleArray(characterList),
         colors: shuffleArray(colorList),
     };
+}
+
+export function getPlayerIconData(playerId, players, iconData) {
+    const playerIndex = players.findIndex(player => player.id === playerId);
+    const { characters, colors } = iconData;
+    let character; let color;
+    if (playerIndex < characters.length) {
+        character = characters[playerIndex];
+    } else {
+        const adjustedIdx = playerIndex - characters.length;
+        character = characters[adjustedIdx];
+    }
+
+    if (playerIndex < colors.length) {
+        color = colors[playerIndex];
+    } else {
+        const adjustedIdx = playerIndex - colors.length;
+        color = colors[adjustedIdx];
+    }
+    return {
+        character,
+        color,
+    };
+}
+
+export function generateResultsPageData(promptAnswers, answerOptions, players, guesses) {
+    const sanitizedPromptAnswers = { ...promptAnswers };
+    delete sanitizedPromptAnswers.count;
+    const resultsData = Object.keys(sanitizedPromptAnswers).map((playerId, answerIdx) => {
+        // answer that the player selected for himself
+        const answerId = promptAnswers[playerId];
+        // object of player guesses for this particular player where the key is the player id and the val is the answer id
+        const playerGuesses = guesses[playerId];
+        // list of player Ids that guessed player's answer correctly
+        const correctPlayers = [];
+        const player = getItemByIdFromArr(players, playerId);
+        const answer = getItemByIdFromArr(answerOptions, answerId);
+        Object.keys(playerGuesses).forEach(pId => {
+            if (playerGuesses[pId] === answerId) {
+                correctPlayers.push(pId);
+            }
+        });
+
+        return {
+            player,
+            answer,
+            correctPlayers,
+        };
+    });
+    return resultsData;
 }

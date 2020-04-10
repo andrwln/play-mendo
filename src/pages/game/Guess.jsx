@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useStore } from '../../store/useStore';
 import { incrementPlayerTurnIndex, incrementGameStep, setPlayerGuessAnswer } from '../../gameController';
-import { getRemainingGuessers, getMostPopularGuess, getItemByIdFromArr, getTopGroupGuess } from '../../utils';
+import { getRemainingGuessers, getGuessesByPopularity, getItemByIdFromArr, getResultsMessage, getTopGroupGuess } from '../../utils';
 import { StyledPageContainer } from '../styles';
 import AnswerOptions from '../../components/AnswerOptions';
 import PendingPlayers from '../../components/PendingPlayers';
 import PlayerIcon from '../../components/PlayerIcon';
+import ResultsBreakdownItem from '../../components/ResultsBreakdownItem';
 import Button from '../../components/Button';
 
 export default function Guess() {
@@ -49,7 +50,7 @@ export default function Guess() {
     return (
         <GuessPageContainer>
             <div className='headerSection'>
-                <img src='/img/logo.svg' />
+                <div className='logoContainer'><img src='/img/logo.svg' /></div>
                 <div className='topicTitle'>{topic}</div>
             </div>
             <div className='mainSection'>
@@ -76,7 +77,7 @@ export default function Guess() {
                 className='fixedSubmitBtn'
                 onClick={ handleClickContinue }
             >
-                {hasNextPlayer ? 'Next Player' : 'See Results'}
+                {hasNextPlayer ? 'Next Player' : 'Results'}
             </Button>}
         </GuessPageContainer>
     );
@@ -104,40 +105,48 @@ function ResultsDisplay({ focusedPlayer, promptAnswers, guesses, players, topicD
     const answerOptions = topicData.answers;
     const focusedPlayerAnswerId = promptAnswers[focusedPlayer.id];
     const focusedPlayerAnswer = getItemByIdFromArr(answerOptions, focusedPlayerAnswerId);
-    const guessBreakdown = getMostPopularGuess(guesses);
-    console.log('guess breakdown: ', guessBreakdown);
+    const guessBreakdown = getGuessesByPopularity(guesses);
     const topGroupAnswer = getTopGroupGuess(guessBreakdown, answerOptions);
     const { characters, colors } = iconData;
+    const focusedPlayerInGuesses = getItemByIdFromArr(guessBreakdown, focusedPlayerAnswerId);
+    const resultsMessage = getResultsMessage(focusedPlayerInGuesses, topGroupAnswer, focusedPlayer);
+
+    console.log('guess breakdown: ', guessBreakdown);
     console.log('most populer guesses: ', topGroupAnswer);
     return (
-        <>
-            <div>{focusedPlayer.name} chose {focusedPlayerAnswer.label}</div>
-            <div>As a group, you thought {focusedPlayer.name} chose {topGroupAnswer}</div>
-            <div>
-                {guessBreakdown.map((guess, idx) => {
-                    const answerLabel = getItemByIdFromArr(answerOptions, guess.answerId).label;
-                    const characterIcon = characters[idx];
-                    const characterColor = colors[idx];
+        // check if focusedplayer answer exists in the guess breakdown
+        // if it does, display as ordered in array and show focused player icon to left of answer
+        // if it does not, above the guess breakdowns, show focused player's answer
+        <GuessBreakdownResults>
+            <div className='resultsMessage'>
+                {resultsMessage}
+            </div>
+            <div className='resultsBreakdown'>
+                {!focusedPlayerInGuesses &&
+                <ResultsBreakdownItem
+                    focusedPlayer={ focusedPlayer }
+                    guessData={ { id: focusedPlayerAnswerId, playerIds: [] } }
+                    players={ players }
+                    iconData={ iconData }
+                    answers={ answerOptions }
+                    isCorrectAnswer
+                />}
+                {guessBreakdown.map((guess, guessIdx) => {
+                    const isFocusedPlayerAnswer = guess.id === focusedPlayerAnswerId;
                     return (
-                        <div key={ `guess-breakdown-${idx}` }>
-                            <span>{answerLabel}</span>
-                            <div>
-                                {guess.playerIds.map((id, index) => {
-                                    const playerName = getItemByIdFromArr(players, id).name;
-                                    return (
-                                        <PlayerIcon
-                                            key={ `player-icon-${index}` }
-                                            isActive playerName={ playerName }
-                                            icon={ characterIcon }
-                                            color={ characterColor }
-                                        />);
-                                })}
-                            </div>
-                        </div>
+                        <ResultsBreakdownItem
+                            key={ `breakdown-item-${guessIdx}` }
+                            focusedPlayer={ focusedPlayer }
+                            guessData={ guess }
+                            players={ players }
+                            iconData={ iconData }
+                            answers={ answerOptions }
+                            isCorrectAnswer={ isFocusedPlayerAnswer }
+                        />
                     );
                 })}
             </div>
-        </>
+        </GuessBreakdownResults>
     );
 }
 
@@ -145,12 +154,16 @@ const GuessPageContainer = styled(StyledPageContainer)`
     .headerSection {
         display: flex;
         align-items: center;
+        justify-content: center;
         padding: 0 25px;
-        img {
-            width: 20%;
+        .logoContainer {
+            width: 30%;
+            img {
+                max-width: 225px;
+            }
         }
         .topicTitle {
-            font-size: 48px;
+            font-size: 32px;
             font-weight: bold;
             padding: 10px 50px;
         }
@@ -168,8 +181,16 @@ const GuessPageContainer = styled(StyledPageContainer)`
             width: 20%;
         }
         .waitingMessage {
+            margin-bottom: 20px;
             font-size: 26px;
             line-height: 45px;
+        }
+        .resultsMessage {
+            margin-bottom: 30px;
+        }
+        .resultsBreakdown {
+            display: flex;
+            flex-direction: column;
         }
     }
     .footerSection {
@@ -177,4 +198,10 @@ const GuessPageContainer = styled(StyledPageContainer)`
         justify-content: center;
         align-items: center;
     }
+`;
+
+const GuessBreakdownResults = styled.div.attrs(() => ({
+    className: 'Styled-BreakdownResults',
+}))`
+    
 `;

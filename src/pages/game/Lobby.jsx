@@ -34,12 +34,18 @@ export default function Lobby() {
                         const characterColor = colors[playerIdx];
                         return (
                             <div key={ `player-icon-${playerIdx}` }>
-                                <PlayerIcon
+                                {/* <PlayerIcon
                                     playerIndex={ playerIdx }
                                     playerName={ player.name }
                                     icon={ characterIcon }
                                     color={ characterColor }
                                     showTooltip={ false }
+                                    isActive
+                                /> */}
+                                <PlayerIcon
+                                    player={ player }
+                                    iconData={ iconData }
+                                    players={ players }
                                     isActive
                                 />
                                 <div>{player.name}</div>
@@ -60,7 +66,7 @@ export default function Lobby() {
                         <div className='nonHostText'>Waiting for all players to join...</div>
                         <Loader
                             type='ThreeDots'
-                            color='#7d7d7d'
+                            color='#ecbf4b'
                             height={ 80 }
                             width={ 80 }
                         />
@@ -121,7 +127,7 @@ const LobbyPageContainer = styled(StyledPageContainer)`
         }
         .nonHostText {
             font-size: 18px;
-            font-weight: bold;
+            /* font-weight: bold; */
             color: #000000;
         }
     }

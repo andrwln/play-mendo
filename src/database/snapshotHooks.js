@@ -25,6 +25,7 @@ export const useGameSnapshot = (gameId) => {
 
                             break;
                         case 2:
+                        case 3:
                             data.guesses = {};
                             data.activePlayer = data.players[data.playerTurnIndex];
                             data.promptAnswers = snapshotListToMap(snapshot.child('prompt_answers'));

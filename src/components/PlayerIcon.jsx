@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { getPlayerIconData } from '../utils';
 
 export default function PlayerIcon(props) {
-    const { isActive, playerName, showTooltip, icon, color } = props;
+    // const { isActive, playerName, showTooltip, icon, color } = props;
+    const { isActive, player, showTooltip, iconData, players } = props;
+    const { character, color } = getPlayerIconData(player.id, players, iconData);
     const [ isHovered, setIsHovered ] = useState(false);
-    const playerInitial = playerName.substring(0, 1);
     return (
         <StyledIcon
             isActive={ isActive }
@@ -12,11 +14,11 @@ export default function PlayerIcon(props) {
             onMouseEnter={ () => setIsHovered(true) }
             onMouseLeave={ () => setIsHovered(false) }
         >
-            {/* {playerInitial} */}
-            <img src={ `/img/${icon}.svg` } />
+            <img src={ `/img/${character}.svg` } />
             {showTooltip &&
             <TooltipContainer className={ isHovered || isActive ? 'show' : 'hide' }>
-                {playerName}
+                {/* {playerName} */}
+                {player.name}
                 <TooltipArrow />
             </TooltipContainer>}
         </StyledIcon>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import Checkbox from './Checkbox';
+import { Checkbox } from './Checkbox';
 
 export default function AnswerOption(props) {
     const { option, selectedAnswer, handleSelectOption } = props;

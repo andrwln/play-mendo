@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { keySpaceEnter } from '../utils';
 
-export default function Checkbox(props) {
+export function Checkbox(props) {
     const { handleChecked, isChecked } = props;
     function onClick() {
         handleChecked(!isChecked);
@@ -14,7 +14,7 @@ export default function Checkbox(props) {
     );
 }
 
-const StyledCheckbox = styled.div.attrs(() => ({
+export const StyledCheckbox = styled.div.attrs(() => ({
     className: 'Styled-Checkbox',
     tabIndex: '0',
 }))`

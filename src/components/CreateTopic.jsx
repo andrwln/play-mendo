@@ -2,11 +2,13 @@ import React from 'react';
 import { useStore } from '../store/useStore';
 import { Actions } from '../store/actions';
 import { generateAnswerObject } from '../staticData';
+import { createTopic } from '../database';
 
 export default function CreateTopic() {
     const { state, dispatch } = useStore();
     const topicData = state.topicData;
     const { answers, topic } = topicData;
+    console.log('current Topic data: ', topicData);
     function addAnswerField() {
         const newAnswers = [...answers];
         newAnswers.push(generateAnswerObject());
@@ -15,9 +17,14 @@ export default function CreateTopic() {
             answers: newAnswers,
         }));
     }
-    function handleUpdateAnswer(e, answerIndex, answer) {
+    function handleSubmitTopic() {
+        console.log('saving topic with data: ', topicData);
+        createTopic(topicData);
+
+    }
+    function handleUpdateAnswer(e, answerIndex, answer, field) {
         const value = e.target.value;
-        const newAnswer = { ...answer, label: value };
+        const newAnswer = { ...answer, [field]: value };
         const newAnswers = [ ...answers ];
         newAnswers[answerIndex] = newAnswer;
         console.log('new answers: ', newAnswers);
@@ -26,24 +33,30 @@ export default function CreateTopic() {
             answers: newAnswers,
         }));
     }
-    function handleTopicChange(val) {
+    function handleTopicChange(val, field) {
         dispatch(Actions.setTopicData({
             ...topicData,
-            topic: val,
+            [field]: val,
         }));
     }
     return (
         <div>
-            <div>Topic: <input value={ topic.answer } onChange={ e => handleTopicChange(e.target.value) } /></div>
+            <div>Topic:
+                <input value={ topic.topic } onChange={ e => handleTopicChange(e.target.value, 'topic') } />
+                Description: <input value={ topic.description } onChange={ e => handleTopicChange(e.target.value, 'description') } />
+            </div>
             Answers:
             {answers.map((answer, i) => {
                 const lastField = (answers.length - 1) === i;
                 return (
                     <div key={ `answer-field-${i}` }>
-                        <input value={ answer.label } onChange={ e => handleUpdateAnswer(e, i, answer) } /> {lastField && <button onClick={ addAnswerField }>+</button>}
+                        label: <input value={ answer.label } onChange={ e => handleUpdateAnswer(e, i, answer, 'label') } />
+                        description: <input value={ answer.description } onChange={ e => handleUpdateAnswer(e, i, answer, 'description') } />
+                        {lastField && <button onClick={ addAnswerField }>+</button>}
                     </div>
                 );
             })}
+            <button onClick={ handleSubmitTopic }>Submit</button>
         </div>
     );
 }

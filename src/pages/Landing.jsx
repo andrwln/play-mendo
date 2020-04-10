@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import { StyledPageContainer } from './styles';
+import CreateTopic from '../components/CreateTopic';
 
 export default function Lobby(props) {
     function redirectTo(location) {
@@ -21,6 +22,7 @@ export default function Lobby(props) {
                     <Button className='host' onClick={ () => redirectTo('host') }>Host new game</Button>
                     <Button className='join' onClick={ () => redirectTo('join') }>Join existing game</Button>
                 </div>
+            {/* <CreateTopic /> */}
             </div>
             <div className='footerSection'>created by JDAK</div>
         </LandingPageContainer>

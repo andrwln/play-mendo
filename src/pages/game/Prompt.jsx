@@ -33,7 +33,7 @@ export default function Prompt() {
     return (
         <PromptPageContainer>
             <div className='headerSection'>
-                <img src='/img/logo.svg' />
+                <div className='logoContainer'><img src='/img/logo.svg' /></div>
                 <div className='topicTitle'>{topic}</div>
             </div>
             <div className='mainSection'>
@@ -59,8 +59,11 @@ const PromptPageContainer = styled(StyledPageContainer)`
         display: flex;
         align-items: center;
         padding: 0 25px;
-        img {
-            width: 20%;
+        .logoContainer {
+            width: 30%;
+            img {
+                max-width: 225px;
+            }
         }
         .topicTitle {
             font-size: 48px;

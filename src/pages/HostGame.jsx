@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import { useStore } from '../store/useStore';
-import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 import { StyledPageContainer } from './styles';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -15,13 +15,13 @@ export default function HostGame(props) {
     const { state, dispatch } = useStore();
     const [playerName, setName] = useState('');
     const [topics, setTopics] = useState([]);
-    const [cookies, setCookie] = useCookies(['player']);
     const [selectedTopic, setSelectedTopic] = useState('');
     const buttonDisabled = playerName.length === 0;
     async function startNewGame() {
         // start new game and redirect user to game game lobby page
         const { gameId, player } = await initiateNewGame({ playerName, topicId: selectedTopic, dispatch });
-        setCookie('player', player);
+        console.log('setting cookie for host: ', player);
+        Cookies.set('player', player);
         props.history.push(`/game/${gameId}`);
     }
     useEffect(() => {
