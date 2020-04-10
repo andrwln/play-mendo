@@ -20,6 +20,7 @@ export const StyledCheckbox = styled.div.attrs(() => ({
 }))`
     display: inline-block;
     width: 40px;
+    min-width: 40px;
     height: 40px;
     box-sizing: border-box;
     border: 3px solid #000000;

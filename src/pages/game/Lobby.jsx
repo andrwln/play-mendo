@@ -30,8 +30,6 @@ export default function Lobby() {
             <div className='mainSection'>
                 <div className='playersContainer'>
                     {players.map((player, playerIdx) => {
-                        const characterIcon = characters[playerIdx];
-                        const characterColor = colors[playerIdx];
                         return (
                             <div key={ `player-icon-${playerIdx}` }>
                                 <PlayerIcon
@@ -40,7 +38,6 @@ export default function Lobby() {
                                     players={ players }
                                     isActive
                                 />
-                                <div>{player.name}</div>
                             </div>
                         );
                     })}
@@ -63,7 +60,7 @@ export default function Lobby() {
                             width={ 80 }
                         />
                     </div>}
-                <div className='createdBy'>created by JDAK</div>
+                <div className='createdBy'>created by JDDAK</div>
             </div>
         </LobbyPageContainer>
     );

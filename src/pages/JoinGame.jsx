@@ -12,9 +12,10 @@ export default function HostGame(props) {
     const [playerName, setName] = useState('');
     const [gameId, setGameId] = useState('');
     const [joinErr, setJoinErr] = useState(false);
+    const [hasJoined, setHasJoined] = useState(false);
     async function joinRoom() {
         const sanitizedId = gameId.toLowerCase();
-
+        setHasJoined(true);
         const player = await joinGameAsPlayer({ playerName, gameId: sanitizedId, dispatch});
 
         if (player) {
@@ -22,14 +23,20 @@ export default function HostGame(props) {
             props.history.push(`/game/${gameId}`);
         } else {
             //show error state
+            setHasJoined(false);
             setJoinErr(true);
         }
+    }
+    function handlePlayerNameChanged(val) {
+        const validatedName = val.substring(0, 16).replace(/ /g, '');
+
+        setName(validatedName);
     }
     function handleGameIdChanged(val) {
         const sanitizedVal = val.substring(0, 6).toUpperCase();
         setGameId(sanitizedVal);
     }
-    const buttonDisabled = playerName.length === 0 && gameId.length === 0;
+    const buttonDisabled = (playerName.length === 0 && gameId.length === 0) || hasJoined;
     return (
         <JoinPageContainer>
             <div className='headerSection'>
@@ -37,13 +44,18 @@ export default function HostGame(props) {
             </div>
             <div className='mainSection'>
                 <Input placeholderText='Enter 6-digit Room Code' value={ gameId } handleInputChanged={ handleGameIdChanged } />
-                <Input placeholderText='Set Your Player name' handleInputChanged={ setName } />
+                <Input placeholderText='Set Your Player name' value={ playerName } handleInputChanged={ handlePlayerNameChanged } />
                 <div className='btnContainer'>
-                    <Button disabled={ buttonDisabled } onClick={ joinRoom }>Join Room</Button>
+                    <Button
+                        disabled={ buttonDisabled }
+                        onClick={ joinRoom }
+                    >
+                        Join Room
+                    </Button>
                 </div>
                 {joinErr && <div className='errorMsg'>Game does not exist or has already started.</div>}
             </div>
-            <div className='footerSection'>created by JDAK</div>
+            <div className='footerSection'>created by JDDAK</div>
         </JoinPageContainer>
     );
 }

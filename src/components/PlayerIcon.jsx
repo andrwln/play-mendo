@@ -8,20 +8,23 @@ export default function PlayerIcon(props) {
     const { character, color } = getPlayerIconData(player.id, players, iconData);
     const [ isHovered, setIsHovered ] = useState(false);
     return (
-        <StyledIcon
-            isActive={ isActive }
-            color={ color }
-            onMouseEnter={ () => setIsHovered(true) }
-            onMouseLeave={ () => setIsHovered(false) }
-        >
-            <img src={ `/img/${character}.svg` } />
-            {showTooltip &&
-            <TooltipContainer className={ isHovered || isActive ? 'show' : 'hide' }>
-                {/* {playerName} */}
-                {player.name}
-                <TooltipArrow />
-            </TooltipContainer>}
-        </StyledIcon>
+        <div className='playerIconContainer'>
+            <StyledIcon
+                isActive={ isActive }
+                color={ color }
+                onMouseEnter={ () => setIsHovered(true) }
+                onMouseLeave={ () => setIsHovered(false) }
+            >
+                <img src={ `/img/${character}.svg` } />
+                {showTooltip &&
+                <TooltipContainer className={ isHovered ? 'show' : 'hide' }>
+                    {/* {playerName} */}
+                    {player.name}
+                    <TooltipArrow />
+                </TooltipContainer>}
+            </StyledIcon>
+            {isActive && <div className='playerName'><span title={ player.name }>{player.name}</span></div>}
+        </div>
     );
 }
 

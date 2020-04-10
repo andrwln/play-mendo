@@ -24,7 +24,7 @@ export default function Lobby(props) {
                 </div>
             </div>
             <CreateTopic />
-            <div className='footerSection'>created by JDAK</div>
+            <div className='footerSection'>created by JDDAK</div>
         </LandingPageContainer>
     );
 }

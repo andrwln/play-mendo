@@ -11,8 +11,6 @@ export default function PendingPlayers(props) {
             <div className='pendingText'>We're just waiting for the these indecisive players...</div>
             <div className='playersContainer'>
                 {players.map((player, playerIdx) => {
-                    const characterIcon = characters[playerIdx];
-                    const characterColor = colors[playerIdx];
                     return (
                         <PlayerIcon
                             key={ `player-icon-${playerIdx}` }
@@ -20,7 +18,7 @@ export default function PendingPlayers(props) {
                             player={ player }
                             iconData={ iconData }
                             players={ players }
-                            showTooltip
+                            showTooltip={ submittedAnswers[player.id] }
                         />
                     );
                 })}
@@ -34,20 +32,23 @@ const PendingPlayersContainer = styled.div.attrs(() => ({
 }))`
     width: 100%;
     .pendingText {
-        font-weight: bold;
+        /* font-weight: bold; */
         font-size: 20px;
-        margin-bottom: 36px;
+        /* margin-bottom: 36px; */
     }
     .playersContainer {
         display: flex;
         flex-flow: wrap;
         justify-content: center;
         padding: 0 15%;
-        .Styled-PlayerIcon {
+        .playerIconContainer {
             margin: 30px 15px 30px 15px;
             img {
                 height: 75%;
                 width: 75%;
+            }
+            .playerName {
+                margin-top: 8px;
             }
         }
     }

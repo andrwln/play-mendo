@@ -139,8 +139,8 @@ export function getResultsMessage(focusedPlayerInGuesses, topGroupAnswer, focuse
     let message = '';
     if (focusedPlayerInGuesses) {
         message = hasMultipleTopGuesses ?
-            `I guess some of you guys kinda know ${focusedPlayer.name} ...?` :
-            `${focusedPlayer.name} has some good friends or is just plain easy to read. Either way, nailed it!`;
+            `I guess only some of you guys kinda know ${focusedPlayer.name} ...?` :
+            `${focusedPlayer.name} has some great friends or is just plain easy to read. Either way, nailed it!`;
     } else {
         message = `Wow, well that's disappointing... Y'all don't seem to know ${focusedPlayer.name} at all!`;
     }

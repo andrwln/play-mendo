@@ -17,7 +17,6 @@ export default function ResultsBreakdownItem(props) {
             {isCorrectAnswer ?
                 <PlayerIcon
                     isActive
-                    showTooltip
                     player={ focusedPlayer }
                     iconData={ iconData }
                     players={ players }
@@ -49,7 +48,8 @@ export default function ResultsBreakdownItem(props) {
 
 const StyledBreakdownItem = styled.div`
     display: flex;
-    align-items: center;
+    height: 80px;
+    padding-bottom: 8px;
     .Styled-PlayerIcon {
         /* margin-right: 30px; */
         height: 60px;
@@ -60,13 +60,16 @@ const StyledBreakdownItem = styled.div`
             width: 75%;
         }
     }
+    .playerName {
+        margin-top: 3px;
+    }
     .iconPlaceholder {
         width: 60px;
     }
     .answerContainer {
         display: flex;
         align-items: center;
-        margin: 10px 20px;
+        margin: 0 20px;
         padding: 0 20px;
         background-color: #e5e5e5;
         box-sizing: border-box;
@@ -78,6 +81,7 @@ const StyledBreakdownItem = styled.div`
             margin-right: 20px;
             height: 27px;
             width: 30px;
+            min-width: 30px;
         }
         img {
             left: 0;

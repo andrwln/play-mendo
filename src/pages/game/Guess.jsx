@@ -178,7 +178,9 @@ const GuessPageContainer = styled(StyledPageContainer)`
             margin-bottom: 58px;
         }
         .smileyFace {
+            max-width: 150px;
             width: 20%;
+            margin-bottom: 20px;
         }
         .waitingMessage {
             margin-bottom: 20px;

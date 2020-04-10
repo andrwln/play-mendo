@@ -54,7 +54,6 @@ export default function Results() {
                                         iconData={ iconData }
                                         players={ players }
                                         isActive
-                                        showTooltip
                                     />
                                     <div className='answerLabel'>
                                         {/* <StyledCheckbox style={ { cursor: 'default' } }>
@@ -111,13 +110,13 @@ const StyledResultsPage = styled(StyledPageContainer)`
         }
         .playerIconRow {
             display: flex;
+            padding-bottom: 15px;
             .iconPlaceholder {
                 width: 300px;
             }
         }
         .playerResultsRow {
             display: flex;
-            align-items: center;
             height: 100px;
             .guessResultContainer {
                 display: flex;
@@ -155,23 +154,33 @@ const StyledResultsPage = styled(StyledPageContainer)`
             }
         }
     }
-    .Styled-PlayerIcon {
-        margin-right: 10px;
-        height: 60px;
-        width: 60px;
-        border-radius: 12.5px;
-        .StyledTooltipContainer {
-            padding: 4px 8px;
-            bottom: -28px;
-            .StyledTooltipArrow {
-                top: -5px;
-                left: 75%;
-                border-width: 0 5px 8px;
-            }
+    .playerIconContainer {
+        .playerName {
+            margin-top: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 60px;
+            white-space: nowrap;
+            font-size: 12px;
         }
-        img {
-            height: 75%;
-            width: 75%;
+        .Styled-PlayerIcon {
+            margin-right: 10px;
+            height: 60px;
+            width: 60px;
+            border-radius: 12.5px;
+            .StyledTooltipContainer {
+                padding: 4px 8px;
+                bottom: -28px;
+                .StyledTooltipArrow {
+                    top: -5px;
+                    left: 75%;
+                    border-width: 0 5px 8px;
+                }
+            }
+            img {
+                height: 75%;
+                width: 75%;
+            }
         }
     }
 `;
