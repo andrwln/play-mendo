@@ -8,9 +8,9 @@ import Button from '../../components/Button';
 
 export default function Results() {
     const { state } = useStore();
-    const { playerData, gameData } = state;
-    const { playerTurnIndex, players, topicData, guesses, promptAnswers } = gameData;
-    const { topic, answers } = topicData;
+    const { gameData } = state;
+    const { players, topicData, guesses, promptAnswers } = gameData;
+    const { answers } = topicData;
     const resultsData = generateResultsPageData(promptAnswers, answers, players, guesses);
     function handlePlayAgain() {
         window.location.assign('/');
@@ -24,24 +24,24 @@ export default function Results() {
             <div className='mainSection'>
                 <div className='summaryMatrix'>
                     <div className='matrixHeaders'>
-                        <div className='targets'>Correct Answers</div>
-                        <div className='guesses' style={ { width: `${70 * players.length}px`} }>Player Picks</div>
-                    </div>
-                    <div className='playerIconRow'>
-                        <div className='iconPlaceholder' />
+                        <div className='player'>Player</div>
+                        <div className='answer'>Final Answer</div>
+                        <div className='score'>Score</div>
                         {players.map((player, playerIdx) => {
                             return (
-                                <PlayerIcon
-                                    key={ `results-icon-${playerIdx}` }
-                                    player={ player }
-                                    isActive
-                                />
+                                <div
+                                    key={ `player-name-${playerIdx}` }
+                                    className='player'
+                                >
+                                    <span>{player.name}</span>
+                                </div>
                             );
                         })}
                     </div>
                     <div className='playerResultRows'>
                         {resultsData.map((playerResult, resultIdx) => {
                             const { player, correctPlayers, answer } = playerResult;
+                            const score = correctPlayers.length;
 
                             return (
                                 <div key={ `player-results-row-${resultIdx}` } className='playerResultsRow'>
@@ -49,11 +49,10 @@ export default function Results() {
                                         player={ player }
                                         isActive
                                     />
-                                    <div className='answerContainer'>
-                                        <div className='answerLabel'>
-                                            <label>{answer.label}</label>
-                                        </div>
+                                    <div className='answer'>
+                                        <label>{answer.label}</label>
                                     </div>
+                                    <div className='score'>{score}</div>
                                     <div className='guessesContainer'>
                                         {players.map((guessingPlayer, guessIdx) => {
                                             const isCorrect = correctPlayers.indexOf(guessingPlayer.id) > -1;
@@ -99,18 +98,34 @@ const StyledResultsPage = styled(StyledPageContainer)`
         }
     }
     .mainSection {
+        .player {
+            width: 80px;
+        }
+        .answer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 0 30px;
+            width: 200px;
+        }
+        .score {
+            width: 60px;
+            margin-right: 20px;
+        }
         .subHeader {
             margin-bottom: 40px;
             font-weight: bold;
         }
         .matrixHeaders {
             display: flex;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            .targets {
-                width: 410px;
+            font-size: 14px;
+            .player {
+                width: 70px;
+                margin: 0 5px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
         .summaryMatrix {
@@ -127,7 +142,17 @@ const StyledResultsPage = styled(StyledPageContainer)`
         }
         .playerResultsRow {
             display: flex;
+            align-items: center;
             height: 100px;
+            padding: 15px 0;
+            .answer {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .score {
+                font-size: 20px;
+                font-weight: bold;
+            }
             .guessesContainer {
                 display: flex;
             }

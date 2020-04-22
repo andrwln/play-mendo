@@ -168,17 +168,8 @@ export function getRandomizedCharacterData() {
 export function getPlayerIconData(playerId, players, iconData) {
     const playerIndex = players.findIndex(player => player.id === playerId);
     const { characters, colors } = iconData;
-    // let character; let color;
 
     function getOption(startingIdx, options) {
-        // if(startingIdx === 7) debugger;
-        // if (startingIdx < options.length) {
-        //     return options[startingIdx];
-        // } else {
-        //     debugger;
-        //     const adjustedIdx = startingIdx - options.length;
-        //     getOption(adjustedIdx, options);
-        // }
         let adjustedIndex = startingIdx;
         while (adjustedIndex > options.length - 1) {
             adjustedIndex = adjustedIndex - options.length;
@@ -188,19 +179,6 @@ export function getPlayerIconData(playerId, players, iconData) {
 
     const character = getOption(playerIndex, characters);
     const color = getOption(playerIndex, colors);
-    // if (playerIndex < characters.length) {
-    //     character = characters[playerIndex];
-    // } else {
-    //     const adjustedIdx = playerIndex - characters.length;
-    //     character = characters[adjustedIdx];
-    // }
-
-    // if (playerIndex < colors.length) {
-    //     color = colors[playerIndex];
-    // } else {
-    //     const adjustedIdx = playerIndex - colors.length;
-    //     color = colors[adjustedIdx];
-    // }
     return {
         character,
         color,

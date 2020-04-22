@@ -2,47 +2,63 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import { StyledPageContainer } from './styles';
+import useWindowSize from '../useWindowSize';
 import CreateTopic from '../components/CreateTopic';
 
 export default function Lobby(props) {
     function redirectTo(location) {
         props.history.push(`/${location}`);
     }
+    const isMobile = useWindowSize('isMobileView');
     return (
         <LandingPageContainer>
             <div className='headerSection'>
                 <img src='/img/logo.svg' />
             </div>
-            <div className='mainSection'>
-                <div className='startingText'>
-                    <div><strong>Ready to get started?</strong></div>
-                    <div>Create a room as a host or Join a room as a player</div>
-                </div>
-                <div className='buttonContainer'>
-                    <Button className='host' onClick={ () => redirectTo('host') }>Host new game</Button>
-                    <Button className='join' onClick={ () => redirectTo('join') }>Join existing game</Button>
-                </div>
-            </div>
-            <div className='footerSection'>created by JDDAK</div>
+            {isMobile ?
+                <MobileViewDisplay /> :
+                <div className='mainSection'>
+                    <div className='welcome'>Welcome to Mendo</div>
+                    <div className='welcomeMessage'>Welcome to Mendo, the premier group guessing game for those who have run out of everything else to do!</div>
+                    <div className='welcomeMessage'>The goal is simple — do you know your friends well enough to guess their answers? Discussion and debates are highly encouraged.</div>
+                    <div className='buttonContainer'>
+                        <Button className='host' onClick={ () => redirectTo('host') }>Host new game</Button>
+                        <Button className='join' onClick={ () => redirectTo('join') }>Join existing game</Button>
+                    </div>
+                    <div className='orange'>Create a room as a host or Join a room as a player</div>
+                </div>}
+            <div className='footerSection'>created by JDDAK &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;Illustrations by Justin Graham</div>
         </LandingPageContainer>
     );
 }
 
+const MobileViewDisplay = () => {
+    return (
+        <div className='mainSection' style={ {fontSize: '20px', lineHeight: 1.5} }>
+            Looks like you're visiting us from a mobile device! Mendo is best experienced from tablet or desktop screen sizes.
+        </div>
+    );
+};
+
 const LandingPageContainer = styled(StyledPageContainer)`
     .mainSection {
         display: flex;
-        justify-content: space-evenly;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        .startingText {
-            text-align: left;
-            width: 400px;
-            font-size: 32px;
-            > div {
-                padding: 15px
-            }
+        .welcome {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .welcomeMessage {
+            font-size: 24px;
+            margin-bottom: 40px;
+            width: 60%;
         }
         .buttonContainer {
             display: flex;
+            margin: 20px 0;
             .Styled-Button {
                 height: 48px;
                 width: 200px;
@@ -56,6 +72,9 @@ const LandingPageContainer = styled(StyledPageContainer)`
                     background-color: #ededed;
                 }
             }
+        }
+        .orange {
+            color: #E8863F;
         }
     }
     .footerSection {

@@ -45,7 +45,7 @@ export default function Lobby() {
                 </div>
                 {playerData.isHost ?
                     <div className='btnContainer'>
-                        <Button disabled={ players.length === 1 } className='startGame' onClick={ startGame }>Everybody's in! Let's Start!</Button>
+                        <Button disabled={ players.length === 1 } className='startGame' onClick={ startGame }>Start the dang game!</Button>
                     </div> :
                     <div>
                         <div className='nonHostText'>Waiting for all players to join...</div>
@@ -56,7 +56,7 @@ export default function Lobby() {
                             width={ 80 }
                         />
                     </div>}
-                <div className='createdBy'>created by JDDAK</div>
+                <div className='createdBy'>created by JDDAK &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;Illustrations by Justin Graham</div>
             </div>
         </LobbyPageContainer>
     );

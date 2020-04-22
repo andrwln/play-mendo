@@ -40,7 +40,7 @@ export default function HostGame(props) {
         getTopicsList();
     }, []);
     return (
-        <StyledPageContainer>
+        <HostPageContainer>
             <div className='headerSection'>
                 <img src='/img/logo.svg' />
             </div>
@@ -61,12 +61,25 @@ export default function HostGame(props) {
             <div className='footerSection'>
                 <StyledButtonContainer>
                     <Button className='startGame' disabled={ buttonDisabled } onClick={ startNewGame }>Create game</Button>
-                    <div className='createdBy'>created by JDDAK</div>
                 </StyledButtonContainer>
+                <div className='createdBy'>created by JDDAK &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;Illustrations by Justin Graham</div>
             </div>
-        </StyledPageContainer>
+        </HostPageContainer>
     );
 }
+
+const HostPageContainer = styled(StyledPageContainer)`
+    .mainSection {
+        padding-top: 50px;
+    }
+    .footerSection {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+    }
+`;
 
 const StyledButtonContainer = styled.div.attrs(() => ({
     className: 'Styled-ButtonContainer',

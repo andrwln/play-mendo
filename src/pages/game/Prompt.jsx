@@ -42,13 +42,14 @@ export default function Prompt() {
                     :
                     <PendingPlayers submittedAnswers={ promptAnswers } players={ players } iconData={ iconData } />}
             </div>
-            {showForceProceed &&
-            <Button
-                className='fixedSubmitBtn'
-                onClick={ () => incrementGameStep({ gameData }) }
-            >
-                Host force proceed
-            </Button>}
+            {/* {showForceProceed &&
+            <div className='footerSection'>
+                <Button
+                    onClick={ () => incrementGameStep({ gameData }) }
+                >
+                    Host force proceed
+                </Button>
+            </div>} */}
         </PromptPageContainer>
     );
 }

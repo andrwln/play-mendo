@@ -7,6 +7,8 @@ export const StyledPageContainer = styled.div.attrs(() => ({
     text-align: center;
     box-sizing: border-box;
     height: 100%;
+    background: url('/img/background.svg');
+    background-size: 100%;
     .headerSection {
         height: 30%;
         img {
@@ -20,6 +22,7 @@ export const StyledPageContainer = styled.div.attrs(() => ({
     }
     .footerSection {
         height: 20%;
+        color: #828282
     }
     .fixedSubmitBtn {
         position: fixed;

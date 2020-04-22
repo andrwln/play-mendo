@@ -9,13 +9,13 @@ import AnswerOptions from '../../components/AnswerOptions';
 import PendingPlayers from '../../components/PendingPlayers';
 import ResultsBreakdownItem from '../../components/ResultsBreakdownItem';
 import Button from '../../components/Button';
+import HelperText from '../../components/HelperText';
 
 export default function Guess() {
     const { state } = useStore();
     const { playerData, gameData } = state;
     const { playerTurnIndex, players, topicData, guesses, promptAnswers, iconData } = gameData;
     const { topic, answers } = topicData;
-    const playerList = players && players.map(player => player.name);
     const focusedPlayer = players[playerTurnIndex];
     const playerId = playerData.id;
     const focusedPlayerId = focusedPlayer.id;
@@ -78,20 +78,26 @@ export default function Guess() {
                     iconData={ iconData }
                 />}
             </div>
-            {showEndRoundButton &&
-                <Button
-                    className='fixedSubmitBtn'
-                    onClick={ forceEndRoundAndShowResults }
-                >
-                    End Voting
-                </Button>}
-            {showNextButton &&
-            <Button
-                className='fixedSubmitBtn'
-                onClick={ handleClickContinue }
-            >
-                {hasNextPlayer ? 'Next Player' : 'Results'}
-            </Button>}
+            <div className='footerSection'>
+                {showEndRoundButton &&
+                <>
+                    <HelperText>PRESS THIS BUTTON TO MOVE FORWARD IF SOMEONE HAS DROPPED OFF</HelperText>
+                    <Button
+                        onClick={ forceEndRoundAndShowResults }
+                    >
+                        End Voting
+                    </Button>
+                </>}
+                {showNextButton &&
+                <>
+                    <HelperText style={ {bottom: '80px'} }>WHEN YOU'RE READY, CLICK HERE TO MOVE TO THE NEXT PLAYER</HelperText>
+                    <Button
+                        onClick={ handleClickContinue }
+                    >
+                        {hasNextPlayer ? 'Next Player' : 'Results'}
+                    </Button>
+                </>}
+            </div>
         </GuessPageContainer>
     );
 }
@@ -117,10 +123,8 @@ function GuessingDisplay({ focusedPlayer, submitGuess, answers}) {
 function ResultsDisplay({ focusedPlayer, promptAnswers, guesses, players, topicData, iconData }) {
     const answerOptions = topicData.answers;
     const focusedPlayerAnswerId = promptAnswers[focusedPlayer.id];
-    const focusedPlayerAnswer = getItemByIdFromArr(answerOptions, focusedPlayerAnswerId);
     const guessBreakdown = getGuessesByPopularity(guesses);
     const topGroupAnswer = getTopGroupGuess(guessBreakdown, answerOptions);
-    const { characters, colors } = iconData;
     const focusedPlayerInGuesses = getItemByIdFromArr(guessBreakdown, focusedPlayerAnswerId);
     const resultsMessage = getResultsMessage(focusedPlayerInGuesses, topGroupAnswer, focusedPlayer);
     // check if focusedplayer answer exists in the guess breakdown
@@ -188,8 +192,8 @@ const GuessPageContainer = styled(StyledPageContainer)`
             margin-bottom: 58px;
         }
         .smileyFace {
-            max-width: 150px;
-            width: 20%;
+            width: 115px;
+            height: 115px;
             margin-bottom: 20px;
         }
         .waitingMessage {
@@ -206,9 +210,18 @@ const GuessPageContainer = styled(StyledPageContainer)`
         }
     }
     .footerSection {
-        display: flex;
+        display: inline-flex;
         justify-content: center;
         align-items: center;
+        position: relative;
+        .helperText {
+            right: -305px;
+            bottom: 80px;
+            ::before {
+                left: -72px;
+                top: 60px;
+            }
+        }
     }
 `;
 

@@ -6,6 +6,7 @@ import { joinGameAsPlayer } from '../gameController';
 import { StyledPageContainer } from './styles';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import HelperText from '../components/HelperText';
 
 export default function HostGame(props) {
     const { dispatch } = useStore();
@@ -43,6 +44,9 @@ export default function HostGame(props) {
                 <img src='/img/logo.svg' />
             </div>
             <div className='mainSection'>
+                <div className='helperTextContainer'>
+                    <HelperText>ASK YOUR GAME HOST TO GIVE THIS TO YOU</HelperText>
+                </div>
                 <Input placeholderText='Enter 6-digit Room Code' value={ gameId } handleInputChanged={ handleGameIdChanged } />
                 <Input placeholderText='Set Your Player name' value={ playerName } handleInputChanged={ handlePlayerNameChanged } />
                 <div className='btnContainer'>
@@ -55,7 +59,7 @@ export default function HostGame(props) {
                 </div>
                 {joinErr && <div className='errorMsg'>Game does not exist or has already started.</div>}
             </div>
-            <div className='footerSection'>created by JDDAK</div>
+            <div className='footerSection'>created by JDDAK &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;Illustrations by Justin Graham</div>
         </JoinPageContainer>
     );
 }
@@ -72,6 +76,19 @@ const JoinPageContainer = styled(StyledPageContainer)`
         .errorMsg {
             margin-top: 10px;
             color: red;
+        }
+        .helperTextContainer {
+            flex-shrink: 1;
+            position: relative;
+            .helperText {
+                width: 200px;
+                left: 235px;
+                bottom: -50px;
+                ::before {
+                    left: -50px;
+                    top: 30px;
+                }
+            }
         }
     }
     .footerSection {

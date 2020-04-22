@@ -19,3 +19,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'Blanket of Snow';
+  src: url(./fonts/Blanket-of-Snow.otf) format('opentype');
+}
