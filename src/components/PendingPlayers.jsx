@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import PlayerIcon from './PlayerIcon';
+import { shuffleArray } from '../utils';
+import { waitingMessages } from '../staticData';
 
 export default function PendingPlayers(props) {
-    const { submittedAnswers, players, iconData } = props;
-    const { characters, colors } = iconData;
-    const morePlayers = [ ...players, ...players, ...players, ...players, ...players, ...players];
+    const { submittedAnswers, players } = props;
+    const waitingMessage = shuffleArray(waitingMessages)[0];
+
+    // const morePlayers = [ ...players, ...players, ...players, ...players, ...players, ...players];
     return (
         <PendingPlayersContainer>
-            <div className='pendingText'>We're just waiting for the these indecisive players...</div>
+            <div className='pendingText'>{waitingMessage}</div>
             <div className='playersContainer'>
                 {players.map((player, playerIdx) => {
                     return (
@@ -30,9 +33,7 @@ const PendingPlayersContainer = styled.div.attrs(() => ({
 }))`
     width: 100%;
     .pendingText {
-        /* font-weight: bold; */
         font-size: 20px;
-        /* margin-bottom: 36px; */
     }
     .playersContainer {
         display: flex;
