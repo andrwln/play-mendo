@@ -20,7 +20,7 @@ export default function Lobby(props) {
                 <div className='mainSection'>
                     <div className='welcome'>Welcome to Mendo</div>
                     <div className='welcomeMessage'>Welcome to Mendo, the premier group guessing game for those who have run out of everything else to do!</div>
-                    <div className='welcomeMessage'>The goal is simple — do you know your friends well enough to guess their answers? Discussion and debates are highly encouraged.</div>
+                    <div className='welcomeMessage'>The goal is simple — do you know your friends well enough to guess their answers?<br />Discussion and debates are highly encouraged.</div>
                     <div className='buttonContainer'>
                         <Button className='host' onClick={ () => redirectTo('host') }>Host new game</Button>
                         <Button className='join' onClick={ () => redirectTo('join') }>Join existing game</Button>

@@ -34,6 +34,7 @@ const PendingPlayersContainer = styled.div.attrs(() => ({
     width: 100%;
     .pendingText {
         font-size: 20px;
+        font-weight: bold;
     }
     .playersContainer {
         display: flex;

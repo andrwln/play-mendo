@@ -26,8 +26,9 @@ export const getTopicDefaults = () => {
     };
 };
 
-export const characterList = ['cactus', 'coffeemug', 'robot', 'shark', 'snail', 'spork'];
-export const colorList = ['#ec4bdc', '#24b670', '#4b8bec', '#ef7116', '#a32896', '#a4d90d', '#ec4b4b'];
+export const characterList = ['cactus', 'coffeemug', 'robot', 'shark', 'snail', 'spork', 'pizzaunicycle', 'trenchcoatkids', 'bowtiellama', 'spaceman', 'skeleton', 'bullwaiter', 'elephantracer', 'pigbananasuit', 'catunicornonesie', 'surferbird'];
+// export const colorList = ['#ec4bdc', '#24b670', '#4b8bec', '#ef7116', '#a32896', '#a4d90d', '#ec4b4b'];
+export const colorList = ['#4B8BEC', '#CA4CC6', '#EF7116', '#BF4641', '#d86770', '#1EAEA2', '#AFD646', '#d78487', '#E35656', '#FAA262', '#D075CD', '#6A99E4'];
 
 export const waitingMessages = [
     'We need these guys to get their shit together:',
@@ -42,9 +43,9 @@ export const waitingMessages = [
     'Check out our new turtle exhibit:',
     'Check out our new snail exhibit:',
     'Check out our new slug exhibit:',
-    'You know marathons stop runners if they take too much time? Maybe we should do it in Mendo.',
-    'A watched pot never boils. A watched Mendo group needs to hurry up.',
-    'Send your friends some Imodium. They need to get their shit together.',
+    'You know marathons stop runners if they take too much time? Maybe we should do it in Mendo for these players:',
+    'A watched pot never boils. A watched Mendo group needs to hurry up:',
+    'Send your friends some Imodium. These guys need to get their shit together:',
     'Remember how you had to wait for everyone in the class to finish before you went to recess? This is one of those times.',
     'Are we ready yet? Are we ready yet? ARE WE READY YET?',
     'I’m not saying this is a game show, but if you had to identify the weakest link…',

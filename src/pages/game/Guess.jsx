@@ -39,7 +39,9 @@ export default function Guess() {
         }
     }
     function forceEndRoundAndShowResults() {
+        debugger;
         guessersRemaining.forEach(guesser => {
+            debugger;
             const playerId = guesser.id;
             const answerId = '';
             setPlayerGuessAnswer({ playerId, focusedPlayerId, answerId, gameData});
@@ -105,7 +107,7 @@ export default function Guess() {
 function WaitingDisplay() {
     return (
         <>
-            <img className='smileyFace' src='/img/smileyface.svg' />
+            {/* <img className='smileyFace' src='/img/smileyface.svg' /> */}
             <div className='waitingMessage'>Sit tight and relax, let's see how well your friends know you. When everyone submits their guess or when the host ends the round, you will be taken to the next page.</div>
         </>
     );

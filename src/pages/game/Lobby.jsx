@@ -114,12 +114,10 @@ const LobbyPageContainer = styled(StyledPageContainer)`
         }
         .createdBy {
             margin-top: 10px;
-            color: #000000;
             font-size: 12px;
         }
         .nonHostText {
             font-size: 18px;
-            /* font-weight: bold; */
             color: #000000;
         }
     }

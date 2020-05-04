@@ -3,6 +3,9 @@ import styled from 'styled-components';
 export const StyledPageContainer = styled.div.attrs(() => ({
     className: 'Styled-Container',
 }))`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 16px 32px;
     text-align: center;
     box-sizing: border-box;
@@ -18,6 +21,7 @@ export const StyledPageContainer = styled.div.attrs(() => ({
     .mainSection {
         box-sizing: border-box;
         min-height: 50%;
+        max-width: 1000px;
         padding: 20px;
     }
     .footerSection {

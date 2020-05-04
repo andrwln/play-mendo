@@ -81,6 +81,7 @@ export default function Results() {
 
 const StyledResultsPage = styled(StyledPageContainer)`
     .headerSection {
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -119,7 +120,8 @@ const StyledResultsPage = styled(StyledPageContainer)`
         }
         .matrixHeaders {
             display: flex;
-            font-size: 14px;
+            font-size: 18px;
+            font-weight: bold;
             .player {
                 width: 70px;
                 margin: 0 5px;
@@ -146,12 +148,12 @@ const StyledResultsPage = styled(StyledPageContainer)`
             height: 100px;
             padding: 15px 0;
             .answer {
-                font-size: 20px;
-                font-weight: bold;
+                font-size: 18px;
+                /* font-weight: bold; */
             }
             .score {
-                font-size: 20px;
-                font-weight: bold;
+                font-size: 18px;
+                /* font-weight: bold; */
             }
             .guessesContainer {
                 display: flex;
