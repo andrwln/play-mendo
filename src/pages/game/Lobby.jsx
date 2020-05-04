@@ -7,6 +7,7 @@ import { incrementGameStep } from '../../gameController';
 import { StyledPageContainer } from '../styles';
 import Button from '../../components/Button';
 import PlayerIcon from '../../components/PlayerIcon';
+import CreatedByFooter from '../../components/CreatedByFooter';
 
 export default function Lobby() {
     const { state } = useStore();
@@ -56,7 +57,7 @@ export default function Lobby() {
                             width={ 80 }
                         />
                     </div>}
-                <div className='createdBy'>created by JDDAK &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;Illustrations by Justin Graham</div>
+                <CreatedByFooter />
             </div>
         </LobbyPageContainer>
     );

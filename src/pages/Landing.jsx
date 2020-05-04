@@ -4,6 +4,7 @@ import Button from '../components/Button';
 import { StyledPageContainer } from './styles';
 import useWindowSize from '../useWindowSize';
 import CreateTopic from '../components/CreateTopic';
+import CreatedByFooter from '../components/CreatedByFooter';
 
 export default function Lobby(props) {
     function redirectTo(location) {
@@ -27,7 +28,9 @@ export default function Lobby(props) {
                     </div>
                     <div className='orange'>Create a room as a host or Join a room as a player</div>
                 </div>}
-            <div className='footerSection'>created by JDDAK &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;Illustrations by Justin Graham</div>
+            <div className='footerSection'>
+                <CreatedByFooter />
+            </div>
         </LandingPageContainer>
     );
 }

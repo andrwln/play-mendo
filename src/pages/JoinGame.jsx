@@ -7,6 +7,8 @@ import { StyledPageContainer } from './styles';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import HelperText from '../components/HelperText';
+import CreatedByFooter from '../components/CreatedByFooter';
+import CreatedBy from '../components/CreatedByFooter';
 
 export default function HostGame(props) {
     const { dispatch } = useStore();
@@ -59,7 +61,9 @@ export default function HostGame(props) {
                 </div>
                 {joinErr && <div className='errorMsg'>Game does not exist or has already started.</div>}
             </div>
-            <div className='footerSection'>created by JDDAK &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;Illustrations by Justin Graham</div>
+            <div className='footerSection'>
+                <CreatedByFooter />
+            </div>
         </JoinPageContainer>
     );
 }

@@ -9,6 +9,7 @@ import Button from '../components/Button';
 import { initiateNewGame } from '../gameController';
 import { getAllTopics } from '../database';
 import { snapshotListToArray, generateTopicSelectOptions } from '../utils';
+import CreatedByFooter from '../components/CreatedByFooter';
 
 export default function HostGame(props) {
     const { state, dispatch } = useStore();
@@ -62,7 +63,7 @@ export default function HostGame(props) {
                 <StyledButtonContainer>
                     <Button className='startGame' disabled={ buttonDisabled } onClick={ startNewGame }>Create game</Button>
                 </StyledButtonContainer>
-                <div className='createdBy'>created by JDDAK &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;Illustrations by Justin Graham</div>
+                <CreatedByFooter />
             </div>
         </HostPageContainer>
     );

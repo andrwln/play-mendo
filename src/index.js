@@ -7,6 +7,7 @@ import Landing from './pages/Landing';
 import HostGame from './pages/HostGame';
 import JoinGame from './pages/JoinGame';
 import Game from './pages/game';
+import About from './pages/About';
 import { StoreProvider } from './store/useStore';
 import * as serviceWorker from './serviceWorker';
 
@@ -16,6 +17,7 @@ ReactDOM.render(
             <StoreProvider>
                 <Router>
                     <Route exact path='/' component={ Landing } />
+                    <Route exact path='/about' component={ About } />
                     <Route exact path='/host' component={ HostGame } />
                     <Route exact path='/join' component={ JoinGame } />
                     <Route exact path='/game/:id' component={ Game } />
