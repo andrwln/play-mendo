@@ -52,7 +52,7 @@ const AboutPageContainer = styled(StyledPageContainer)`
     .mainSection {
         max-width: 800px;
         height: 100%;
-        padding-top: 10%;
+        padding-top: 100px;
         
     }
     .footerSection {

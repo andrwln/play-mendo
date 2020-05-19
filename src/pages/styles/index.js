@@ -15,7 +15,7 @@ export const StyledPageContainer = styled.div.attrs(() => ({
     .headerSection {
         height: 30%;
         img {
-            height: 100%;
+            height: 90%;
         }
     }
     .mainSection {

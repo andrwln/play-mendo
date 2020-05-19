@@ -18,19 +18,21 @@ export default function Lobby(props) {
             </div>
             {isMobile ?
                 <MobileViewDisplay /> :
-                <div className='mainSection'>
-                    <div className='welcome'>Welcome to Mendo</div>
-                    <div className='welcomeMessage'>Welcome to Mendo, the premier group guessing game for those who have run out of everything else to do!</div>
-                    <div className='welcomeMessage'>The goal is simple — do you know your friends well enough to guess their answers?<br />Discussion and debates are highly encouraged.</div>
-                    <div className='buttonContainer'>
-                        <Button className='host' onClick={ () => redirectTo('host') }>Host new game</Button>
-                        <Button className='join' onClick={ () => redirectTo('join') }>Join existing game</Button>
+                <>
+                    <div className='mainSection'>
+                        <div className='welcome'>Welcome to Mendo</div>
+                        <div className='welcomeMessage'>Welcome to Mendo, the premier group guessing game for those who have run out of everything else to do!</div>
+                        <div className='welcomeMessage'>The goal is simple — do you know your friends well enough to guess their answers?<br />Discussion and debates are highly encouraged.</div>
+                        <div className='buttonContainer'>
+                            <Button className='host' onClick={ () => redirectTo('host') }>Host new game</Button>
+                            <Button className='join' onClick={ () => redirectTo('join') }>Join existing game</Button>
+                        </div>
+                        <div className='orange'>Create a room as a host or Join a room as a player</div>
                     </div>
-                    <div className='orange'>Create a room as a host or Join a room as a player</div>
-                </div>}
-            <div className='footerSection'>
-                <CreatedByFooter />
-            </div>
+                    <div className='footerSection'>
+                        <CreatedByFooter />
+                    </div>
+                </>}
         </LandingPageContainer>
     );
 }
@@ -44,11 +46,15 @@ const MobileViewDisplay = () => {
 };
 
 const LandingPageContainer = styled(StyledPageContainer)`
+    .headerSection {
+        height: 28%;
+    }
     .mainSection {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        height: 80%;
         .welcome {
             font-size: 24px;
             font-weight: bold;
@@ -85,5 +91,6 @@ const LandingPageContainer = styled(StyledPageContainer)`
         display: flex;
         justify-content: center;
         align-items: flex-end;
+        height: 10%
     }
 `;
